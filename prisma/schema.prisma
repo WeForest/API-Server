@@ -1,7 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["orderByRelation"]
-  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
@@ -9,43 +8,80 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model GoalExp{
-  level Int @default(autoincrement()) @id
+model GoalExp {
+  level          Int @id @default(autoincrement())
   GoalExperience Int
 }
 
-model User{
-  id Int @default(autoincrement()) @id
-  email String @unique
-  name String
-  sub String @unique
-  purpose String
-  level Int
-  exp Int
-  major Major[] @relation(references: [id])
-  interested Interests[] @relation(references: [id])
-  group StudyGroup[] @relation(references: [id])
+model User {
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  name        String
+  sub         String        @unique
+  purpose     String
+  level       Int
+  exp         Int
+  major       Major[]       @relation(references: [id])
+  interested  Interests[]   @relation(references: [id])
+  group       StudyGroup[]  @relation(references: [id])
+  ChattingLog ChattingLog[]
 }
 
-model StudyGroup{
-  id Int @default(autoincrement()) @id
-  name String
+model StudyGroup {
+  id    Int    @id @default(autoincrement())
+  name  String
   users User[] @relation(references: [id])
 }
-model Interests{
-  id Int @default(autoincrement()) @id
+
+model Interests {
+  id         Int    @id @default(autoincrement())
   Interested String @unique
-  users User[] @relation(references: [id])
+  users      User[] @relation(references: [id])
 }
 
-model Major{
-  id Int @default(autoincrement()) @id
+model Major {
+  id    Int    @id @default(autoincrement())
   major String @unique
   users User[] @relation(references: [id])
 }
 
-model mission{
-  id Int @default(autoincrement()) @id
-  
+model Mission {
+  id        Int          @id @default(autoincrement())
+  level     Int
+  exp       Int
+  title     String
+  content   String
+  createdAt DateTime     @default(now())
+  expiredAt DateTime
+  type      MissionType?
+}
+
+model MissionType {
+  id        Int     @id @default(autoincrement())
+  type      String  @default("daily") // daily, weekly, monthly 
+  mission   Mission @relation(fields: [missionId], references: [id])
+  missionId Int     @unique
+}
+
+model Chatting {
+  id          Int           @id @default(autoincrement())
+  type        ChattingType?
+  ChattingLog ChattingLog[]
+}
+
+model ChattingLog {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  chatting   Chatting @relation(fields: [chattingId], references: [id])
+  chattingId Int
+}
+
+model ChattingType {
+  id         Int      @id @default(autoincrement())
+  type       String   @default("dm") // dm, study
+  chatting   Chatting @relation(fields: [chattingId], references: [id])
+  chattingId Int      @unique
 }
