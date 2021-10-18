@@ -1,0 +1,51 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["orderByRelation"]
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model GoalExp{
+  level Int @default(autoincrement()) @id
+  GoalExperience Int
+}
+
+model User{
+  id Int @default(autoincrement()) @id
+  email String @unique
+  name String
+  sub String @unique
+  purpose String
+  level Int
+  exp Int
+  major Major[] @relation(references: [id])
+  interested Interests[] @relation(references: [id])
+  group StudyGroup[] @relation(references: [id])
+}
+
+model StudyGroup{
+  id Int @default(autoincrement()) @id
+  name String
+  users User[] @relation(references: [id])
+}
+model Interests{
+  id Int @default(autoincrement()) @id
+  Interested String @unique
+  users User[] @relation(references: [id])
+}
+
+model Major{
+  id Int @default(autoincrement()) @id
+  major String @unique
+  users User[] @relation(references: [id])
+}
+
+model mission{
+  id Int @default(autoincrement()) @id
+  
+}
