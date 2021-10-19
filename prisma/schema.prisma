@@ -14,17 +14,22 @@ model GoalExp {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  email       String        @unique
-  name        String
-  sub         String        @unique
-  purpose     String
-  level       Int
-  exp         Int
-  major       Major[]       @relation(references: [id])
-  interested  Interests[]   @relation(references: [id])
-  group       StudyGroup[]  @relation(references: [id])
-  ChattingLog ChattingLog[]
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  sub          String        @unique
+  name         String
+  isJobSeeker  Boolean       @default(true)
+  companyEmail String?
+  authCompany  Boolean?
+  purpose      String
+  level        Int
+  exp          Int
+  followers    User[]        @relation("FollowRelation", references: [id])
+  following    User[]        @relation("FollowRelation", references: [id])
+  major        Major[]       @relation(references: [id])
+  interested   Interests[]   @relation(references: [id])
+  group        StudyGroup[]  @relation(references: [id])
+  ChattingLog  ChattingLog[]
 }
 
 model StudyGroup {
