@@ -10,6 +10,7 @@ datasource db {
 
 model GoalExp {
   level          Int @id @default(autoincrement())
+  tier           String
   GoalExperience Int
 }
 
