@@ -9,7 +9,7 @@ datasource db {
 }
 
 model GoalExp {
-  level          Int @id @default(autoincrement())
+  level          Int    @id @default(autoincrement())
   tier           String
   GoalExperience Int
 }
@@ -22,9 +22,11 @@ model User {
   isJobSeeker  Boolean       @default(true)
   companyEmail String?
   authCompany  Boolean?
-  purpose      String
-  level        Int
-  exp          Int
+  purpose      String?
+  level        Int          @default(1)
+  exp          Int           @default(0)
+  accessToken  String?
+         
   followers    User[]        @relation("FollowRelation", references: [id])
   following    User[]        @relation("FollowRelation", references: [id])
   major        Major[]       @relation(references: [id])
@@ -32,6 +34,7 @@ model User {
   group        StudyGroup[]  @relation(references: [id])
   ChattingLog  ChattingLog[]
 }
+
 
 model StudyGroup {
   id    Int    @id @default(autoincrement())
