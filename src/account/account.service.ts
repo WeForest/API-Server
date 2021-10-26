@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { TokenPayload } from "google-auth-library";
 import { AES } from "crypto-js";
 
-import { LoginReturnValue, UserByPrisma } from "./DTO/login-cat.dto";
+import { LoginReturnValue, UserByPrisma } from "./DTO/login.dto";
 
 import { PrismaService } from "../prisma.service";
 

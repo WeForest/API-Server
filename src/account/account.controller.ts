@@ -2,7 +2,7 @@ import { Controller, Post, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
 
 import { AccountService } from "./account.service";
-import { LoginReq, LoginRes, LoginReturnValue } from "./DTO/login-cat.dto";
+import { LoginReq, LoginRes, LoginReturnValue } from "./DTO/login.dto";
 
 @Controller()
 export class AccountController {
