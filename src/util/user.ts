@@ -5,7 +5,7 @@ import {
   UserByPrisma,
   UserRegistByPrisma,
   UserUpdateInform,
-} from "../account/DTO/login-cat.dto";
+} from "../account/DTO/login.dto";
 
 export const findUserBySub: Function = async ({
   prisma,

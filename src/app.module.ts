@@ -4,6 +4,7 @@ import { AccountModule } from "./account/account.module";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { ProfileModule } from "./profile/profile.module";
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { AppService } from "./app.service";
       envFilePath: [".development.env", ".env"],
     }),
     AccountModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
