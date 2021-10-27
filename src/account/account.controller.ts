@@ -4,11 +4,11 @@ import { Request, Response } from "express";
 import { AccountService } from "./account.service";
 import { LoginReq, LoginRes, LoginReturnValue } from "./DTO/login.dto";
 
-@Controller()
+@Controller("account")
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @Post("/login")
+  @Post("login")
   async login(
     @Req() request: Request,
     @Res() res: Response

@@ -4,11 +4,11 @@ import { Request, Response } from "express";
 import { ProfileService } from "./profile.service";
 import { ProfileInterface } from "./DTO/profile.dto";
 
-@Controller()
+@Controller("profile")
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Post("/profile/:nickname")
+  @Post(":nickname")
   async login(
     @Param("nickname") nickname: string,
     @Res() res: Response
