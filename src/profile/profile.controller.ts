@@ -1,17 +1,18 @@
-import { Controller, Param, Post, Req, Res } from "@nestjs/common";
-import { Request, Response } from "express";
+import { Controller, Get, Param, Patch, Headers, Body } from "@nestjs/common";
 
 import { ProfileService } from "./profile.service";
-import { ProfileInterface } from "./DTO/profile.dto";
+import {
+  ProfileInterface,
+  UpdateProfileDataInterface,
+} from "./DTO/profile.dto";
 
 @Controller("profile")
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @Post(":nickname")
-  async login(
-    @Param("nickname") nickname: string,
-    @Res() res: Response
+  @Get(":nickname")
+  async profileJoin(
+    @Param("nickname") nickname: string
   ): Promise<ProfileInterface | { message: string }> {
     const result = await this.profileService.getProfileByNickname(nickname);
 
@@ -21,4 +22,10 @@ export class ProfileController {
     }
     return datas;
   }
+
+  @Patch("update")
+  async profileUpdate(
+    @Headers("authorization") accessToken: string,
+    @Body() body: UpdateProfileDataInterface
+  ): Promise<any> {}
 }
