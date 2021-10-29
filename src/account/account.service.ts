@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { TokenPayload } from "google-auth-library";
-import { AES } from "crypto-js";
 
 import { LoginReturnValue, UserByPrisma } from "./DTO/login.dto";
 
@@ -12,6 +11,7 @@ import {
   findUserBySub,
   updateAccessTokenAtUser,
 } from "../util/user";
+import { generatedTokenBySub } from "../util/token";
 
 @Injectable()
 export class AccountService {
@@ -32,10 +32,7 @@ export class AccountService {
       );
     }
 
-    const generatedToken: string = AES.encrypt(
-      sub + process.env.DISTINGUISHER + Date.now().toString(),
-      process.env.ACCESS_TOKEN_KEY
-    ).toString();
+    const generatedToken: string = generatedTokenBySub(sub);
 
     await updateAccessTokenAtUser({ prisma: this.prisma, sub, generatedToken });
 
