@@ -5,6 +5,7 @@ import {
   ProfileInterface,
   UpdateProfileDataInterface,
 } from "./DTO/profile.dto";
+import { getSubByToken } from "src/util/token";
 
 @Controller("profile")
 export class ProfileController {
@@ -27,5 +28,12 @@ export class ProfileController {
   async profileUpdate(
     @Headers("authorization") accessToken: string,
     @Body() body: UpdateProfileDataInterface
-  ): Promise<any> {}
+  ): Promise<any> {
+    const sub = getSubByToken(accessToken);
+
+    const _ = await this.profileService.updateProfileByAccessToken({
+      sub,
+      updateData: body,
+    });
+  }
 }
