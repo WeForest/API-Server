@@ -15,26 +15,26 @@ model GoalExp {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  sub          String        @unique
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  sub          String   @unique
   name         String
-  isJobSeeker  Boolean       @default(true)
+  profileImg   String?
+  isJobSeeker  Boolean  @default(true)
   companyEmail String?
   authCompany  Boolean?
   purpose      String?
-  level        Int          @default(1)
-  exp          Int           @default(0)
+  level        Int      @default(1)
+  exp          Int      @default(0)
   accessToken  String?
-         
-  followers    User[]        @relation("FollowRelation", references: [id])
-  following    User[]        @relation("FollowRelation", references: [id])
-  major        Major[]       @relation(references: [id])
-  interested   Interests[]   @relation(references: [id])
-  group        StudyGroup[]  @relation(references: [id])
-  ChattingLog  ChattingLog[]
-}
 
+  followers   User[]        @relation("FollowRelation", references: [id])
+  following   User[]        @relation("FollowRelation", references: [id])
+  major       Major[]       @relation(references: [id])
+  interested  Interests[]   @relation(references: [id])
+  group       StudyGroup[]  @relation(references: [id])
+  ChattingLog ChattingLog[]
+}
 
 model StudyGroup {
   id    Int    @id @default(autoincrement())
