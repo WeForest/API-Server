@@ -13,7 +13,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "migrate:dev": "prisma migrate dev --preview-feature && prisma generate",
     "migrate:reset": "prisma migrate reset --preview-feature",
-    "migrate:deploy": "prisma migrate deploy --preview-feature && prisma generate"
+    "migrate:deploy": "prisma migrate deploy --preview-feature && prisma generate",
+    "g:co": "cd src && nest g --no-spec co",
+    "g:mo": "cd src && nest g mo",
+    "g:s": "cd src && nest g --no-spec s"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
