@@ -4,8 +4,9 @@ import { AccountModule } from "./account/account.module";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { MissionController } from './mission/mission.controller';
-import { MissionModule } from './mission/mission.module';
+
+import { MissionModule } from "./mission/mission.module";
+import { ProfileModule } from "./profile/profile.module";
 
 @Module({
   imports: [
@@ -14,8 +15,9 @@ import { MissionModule } from './mission/mission.module';
     }),
     AccountModule,
     MissionModule,
+    ProfileModule,
   ],
-  controllers: [AppController, MissionController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
