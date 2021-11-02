@@ -34,6 +34,7 @@ model User {
   interested  Interests[]   @relation(references: [id])
   group       StudyGroup[]  @relation(references: [id])
   ChattingLog ChattingLog[]
+  HasMission  HasMission[]
 }
 
 model StudyGroup {
@@ -55,21 +56,25 @@ model Major {
 }
 
 model Mission {
-  id        Int          @id @default(autoincrement())
-  level     Int
-  exp       Int
-  title     String
-  content   String
-  createdAt DateTime     @default(now())
-  expiredAt DateTime
-  type      MissionType?
+  id         Int          @id @default(autoincrement())
+  level      Int
+  exp        Int
+  title      String
+  content    String
+  createdAt  DateTime     @default(now())
+  expiredAt  Int
+  type       String       @default("daily") // daily, weekly, monthly 
+  HasMission HasMission[]
 }
 
-model MissionType {
-  id        Int     @id @default(autoincrement())
-  type      String  @default("daily") // daily, weekly, monthly 
+model HasMission {
+  id Int @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int 
+
   mission   Mission @relation(fields: [missionId], references: [id])
-  missionId Int     @unique
+  missionId Int
 }
 
 model Chatting {
