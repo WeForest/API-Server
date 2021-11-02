@@ -35,12 +35,17 @@ model User {
   group       StudyGroup[]  @relation(references: [id])
   ChattingLog ChattingLog[]
   HasMission  HasMission[]
+  StudyGroup  StudyGroup[]  @relation("GroupOwner")
 }
 
 model StudyGroup {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[] @relation(references: [id])
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  tags        String
+  owner       User   @relation("GroupOwner", fields: [ownerId], references: [id])
+  ownerId     Int
+  users       User[] @relation(references: [id])
 }
 
 model Interests {
@@ -71,7 +76,7 @@ model HasMission {
   id Int @id @default(autoincrement())
 
   user   User @relation(fields: [userId], references: [id])
-  userId Int 
+  userId Int
 
   mission   Mission @relation(fields: [missionId], references: [id])
   missionId Int
