@@ -8,11 +8,13 @@ import {
   Post,
   Headers,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { getSubByToken } from "src/util/token";
 import { CreateGroupInform } from "./group.dto";
 import { GroupService } from "./group.service";
 
 @Controller("group")
+@ApiTags("그룹 관련 API")
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 

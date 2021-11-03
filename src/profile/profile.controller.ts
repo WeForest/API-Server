@@ -1,13 +1,12 @@
 import { Controller, Get, Param, Patch, Headers, Body } from "@nestjs/common";
 
 import { ProfileService } from "./profile.service";
-import {
-  ProfileInterface,
-  UpdateProfileDataInterface,
-} from "./DTO/profile.dto";
+import { ProfileInterface, UpdateProfileDataInterface } from "./profile.dto";
 import { getSubByToken } from "src/util/token";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller("profile")
+@ApiTags("프로필 관련 API")
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 

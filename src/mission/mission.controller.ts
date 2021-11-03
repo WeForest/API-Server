@@ -8,11 +8,13 @@ import {
   Post,
   Headers,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { getSubByToken } from "../util/token";
 import { CreateMission, MissionType } from "./mission.dto";
 import { MissionService } from "./mission.service";
 
 @Controller("mission")
+@ApiTags("미션 관련 API")
 export class MissionController {
   constructor(private readonly missionService: MissionService) {}
 
