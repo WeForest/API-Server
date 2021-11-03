@@ -1,10 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import {
-  AboutGroup,
-  CreateGroupInform,
-  CreateGroupMethodInform,
-} from "./group.dto";
+import { AboutGroup, CreateGroupMethodInform } from "./group.dto";
 
 @Injectable()
 export class GroupService {
