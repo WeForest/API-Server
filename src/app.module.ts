@@ -12,7 +12,7 @@ import { GroupModule } from "./group/group.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [".development.env", ".env"],
+      envFilePath: [".env"],
     }),
     AccountModule,
     MissionModule,
