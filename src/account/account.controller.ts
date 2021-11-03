@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Post, Req, Res } from "@nestjs/common";
 import { Request, Response } from "express";
 
 import { AccountService } from "./account.service";
@@ -10,12 +10,11 @@ export class AccountController {
 
   @Post("login")
   async login(
-    @Req() request: Request,
+    @Body() { token: googleToken }: { token: string },
     @Res() res: Response
   ): Promise<LoginRes> {
-    const body: LoginReq = request.body;
     const result: LoginReturnValue = await this.accountService.login(
-      body.token
+      googleToken
     );
     res.status(result.status);
     const { token, success, message } = result;
