@@ -7,9 +7,7 @@ import { AppService } from "./app.service";
 
 import { MissionModule } from "./mission/mission.module";
 import { ProfileModule } from "./profile/profile.module";
-import { GroupController } from './group/group.controller';
-import { GroupModule } from './group/group.module';
-import { GroupController } from './group/group.controller';
+import { GroupModule } from "./group/group.module";
 
 @Module({
   imports: [
@@ -21,7 +19,7 @@ import { GroupController } from './group/group.controller';
     ProfileModule,
     GroupModule,
   ],
-  controllers: [AppController, GroupController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
