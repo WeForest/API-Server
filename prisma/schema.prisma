@@ -9,34 +9,43 @@ datasource db {
 }
 
 model GoalExp {
-  level          Int @id @default(autoincrement())
+  level          Int    @id @default(autoincrement())
   tier           String
   GoalExperience Int
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  sub          String        @unique
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  sub          String   @unique
   name         String
-  isJobSeeker  Boolean       @default(true)
+  profileImg   String?
+  isJobSeeker  Boolean  @default(true)
   companyEmail String?
   authCompany  Boolean?
-  purpose      String
-  level        Int
-  exp          Int
-  followers    User[]        @relation("FollowRelation", references: [id])
-  following    User[]        @relation("FollowRelation", references: [id])
-  major        Major[]       @relation(references: [id])
-  interested   Interests[]   @relation(references: [id])
-  group        StudyGroup[]  @relation(references: [id])
-  ChattingLog  ChattingLog[]
+  purpose      String?
+  level        Int      @default(1)
+  exp          Int      @default(0)
+  accessToken  String?
+
+  followers   User[]        @relation("FollowRelation", references: [id])
+  following   User[]        @relation("FollowRelation", references: [id])
+  major       Major[]       @relation(references: [id])
+  interested  Interests[]   @relation(references: [id])
+  group       StudyGroup[]  @relation(references: [id])
+  ChattingLog ChattingLog[]
+  HasMission  HasMission[]
+  StudyGroup  StudyGroup[]  @relation("GroupOwner")
 }
 
 model StudyGroup {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[] @relation(references: [id])
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  tags        String
+  owner       User   @relation("GroupOwner", fields: [ownerId], references: [id])
+  ownerId     Int
+  users       User[] @relation(references: [id])
 }
 
 model Interests {
@@ -52,21 +61,25 @@ model Major {
 }
 
 model Mission {
-  id        Int          @id @default(autoincrement())
-  level     Int
-  exp       Int
-  title     String
-  content   String
-  createdAt DateTime     @default(now())
-  expiredAt DateTime
-  type      MissionType?
+  id         Int          @id @default(autoincrement())
+  level      Int
+  exp        Int
+  title      String
+  content    String
+  createdAt  DateTime     @default(now())
+  expiredAt  Int
+  type       String       @default("daily") // daily, weekly, monthly 
+  HasMission HasMission[]
 }
 
-model MissionType {
-  id        Int     @id @default(autoincrement())
-  type      String  @default("daily") // daily, weekly, monthly 
+model HasMission {
+  id Int @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
   mission   Mission @relation(fields: [missionId], references: [id])
-  missionId Int     @unique
+  missionId Int
 }
 
 model Chatting {
