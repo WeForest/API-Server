@@ -10,7 +10,12 @@ import {
 } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { getSubByToken } from "../util/token";
-import { CreateMissionDTO, MissionDTO, MissionType } from "./mission.dto";
+import {
+  CreateMissionDTO,
+  MissionDTO,
+  MissionType,
+  UserDTO,
+} from "./mission.dto";
 import { MissionService } from "./mission.service";
 
 @Controller("mission")
@@ -53,6 +58,11 @@ export class MissionController {
   }
 
   @Patch("clear/:number") // 미션 성공시
+  @ApiOperation({
+    summary: "미션 클리어",
+    description: "미션이 클리어 되었을 때",
+  })
+  @ApiOkResponse({ description: "성공 시", type: UserDTO })
   async successMission(
     @Headers("authorization") accessToken: string,
     @Param("number") number: number
@@ -62,6 +72,11 @@ export class MissionController {
   }
 
   @Patch("fail/:number") // 미션 실패시
+  @ApiOperation({
+    summary: "미션 실패시",
+    description: "미션이 실패 되었을 때",
+  })
+  @ApiOkResponse({ description: "성공 시", type: UserDTO })
   async failMission(
     @Headers("authorization") accessToken: string,
     @Param("number") number: number

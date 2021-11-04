@@ -1,4 +1,4 @@
-import { HasMission, Mission, User } from ".prisma/client";
+import { Mission, User } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { GoalExp } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
