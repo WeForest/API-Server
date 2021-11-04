@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { TokenPayload } from "google-auth-library";
 
-import { LoginReturnValue, UserByPrisma } from "./DTO/login.dto";
+import { LoginReturnValue, UserByPrisma } from "./login.dto";
 
 import { PrismaService } from "../prisma.service";
 

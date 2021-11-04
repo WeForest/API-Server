@@ -7,20 +7,37 @@ import {
   Patch,
   Post,
   Headers,
+  Res,
 } from "@nestjs/common";
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from "@nestjs/swagger";
 import { getSubByToken } from "src/util/token";
-import { CreateGroupInform } from "./group.dto";
+import { CreateGroupInform, GroupDTO } from "./group.dto";
 import { GroupService } from "./group.service";
+import { Response } from "express";
+import { StudyGroup } from ".prisma/client";
 
 @Controller("group")
+@ApiTags("그룹 관련 API")
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
   @Get(":id")
+  @ApiOperation({
+    summary: "그룹 가입",
+    description: "id값에 해당하는 그룹에 유저를 가입시킵니다.",
+  })
+  @ApiCreatedResponse({ description: "성공 시" })
   async joinGroupById(
     @Headers("authorization") accessToken: string,
-    @Param("id") id: number
+    @Param("id") id: number,
+    @Res() res: Response
   ) {
+    res.status(201);
     return this.groupService.joinTheGroup({
       sub: getSubByToken(accessToken),
       id,
@@ -28,6 +45,11 @@ export class GroupController {
   }
 
   @Patch(":id")
+  @ApiOperation({
+    summary: "그룹 가입",
+    description: "id값에 해당하는 그룹에 유저를 탈퇴시킵니다.",
+  })
+  @ApiCreatedResponse({ description: "성공 시" })
   async withdrawGroupById(
     @Headers("authorization") accessToken: string,
     @Param("id") id: number
@@ -39,10 +61,15 @@ export class GroupController {
   }
 
   @Post("create")
+  @ApiOperation({
+    summary: "그룹 생성",
+    description: "정보에 맞는 그룹을 생성시킵니다.",
+  })
+  @ApiOkResponse({ description: "성공 시", type: GroupDTO })
   async createGroup(
     @Headers("authorization") accessToken: string,
     @Body() groupInform: CreateGroupInform
-  ) {
+  ): Promise<StudyGroup> {
     return this.groupService.createGroup(
       Object.assign(
         {},
@@ -55,6 +82,11 @@ export class GroupController {
   }
 
   @Delete("drop/:id")
+  @ApiOperation({
+    summary: "그룹 삭제",
+    description: "id값에 해당하는 그룹을 삭제합니다.",
+  })
+  @ApiCreatedResponse({ description: "성공 시" })
   async dropGroup(
     @Headers("authorization") accessToken: string,
     @Param("id") id: number

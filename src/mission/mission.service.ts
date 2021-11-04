@@ -1,4 +1,4 @@
-import { HasMission, User } from ".prisma/client";
+import { Mission, User } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { GoalExp } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
@@ -8,7 +8,7 @@ import { CreateMission, MissionType } from "./mission.dto";
 export class MissionService {
   constructor(private prisma: PrismaService) {}
 
-  async createMission(mission: CreateMission) {
+  async createMission(mission: CreateMission): Promise<Mission> {
     return this.prisma.mission.create({ data: mission });
   }
 
@@ -21,7 +21,7 @@ export class MissionService {
   }
 
   async getMissionListByType(type: MissionType) {
-    return this.prisma.mission.findMany({ where: { type } });
+    return (await this.prisma.mission.findMany({ where: { type } }))[0];
   }
 
   async failedMissionBySub({ sub, number }: { sub: any; number: number }) {

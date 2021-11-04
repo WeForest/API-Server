@@ -3,7 +3,7 @@ import { PrismaService } from "../prisma.service";
 import {
   GetProfileFunction,
   UpdateProfileDataWithAccessToken,
-} from "./DTO/profile.dto";
+} from "./profile.dto";
 
 @Injectable()
 export class ProfileService {

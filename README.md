@@ -7,11 +7,13 @@
 3. 해당 경로로 들어가서 `yarn`을 입력해준다.
 
 - 없다면 `npm install -g yarn`
-- `npm`도 안된다면 노드를 다운받아오자.
+- `npm`도 안된다면 노드를 다운받아오자, 물론 설치 이후에 환경변수 설정을 해야한다.
+
+- 환경변수 설정이 귀찮다면 그냥 인터넷에 yarn을 검색해서 다운로드를 받자
 
 4. 다음 루트 디렉터리 안에 `.env`를 생성하자
-5. `.env`에 `DATABASE_URL=너의 DB 주소`를 입력하자
+5. `.env`에 `DATABASE_URL={디코에 공개된 디비 주소}`를 입력하자
 
 - 주소는 `mysql://{id}:{password}@{host address}:{port}/{database name}`
 
-6. `yarn migrate:deploy`를 입력한 이후, `yarn start:dev`를 입력하자.
+6. `yarn start:dev`를 입력하자.
