@@ -43,8 +43,11 @@ export class MissionController {
   }
 
   @Get(":type") // 타입으로 미션들 조회
-  // @ApiOperation({ summary: "미션 제거", description: "미션 제거하는 API" })
-  // @ApiOkResponse({ description: "성공 시", type: MissionDTO })
+  @ApiOperation({
+    summary: "미션 리스트 조회",
+    description: "미션을  타입으로 조회하는 API",
+  })
+  @ApiOkResponse({ description: "성공 시", type: MissionDTO })
   async getMissionListByType(@Param("type") type: MissionType) {
     return this.missionService.getMissionListByType(type);
   }

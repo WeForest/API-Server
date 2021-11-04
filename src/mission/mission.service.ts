@@ -21,7 +21,7 @@ export class MissionService {
   }
 
   async getMissionListByType(type: MissionType) {
-    return this.prisma.mission.findMany({ where: { type } });
+    return (await this.prisma.mission.findMany({ where: { type } }))[0];
   }
 
   async failedMissionBySub({ sub, number }: { sub: any; number: number }) {
