@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { uploadToS3 } from "src/util/image";
 import { PrismaService } from "../prisma.service";
 import {
   GetProfileFunction,
@@ -7,9 +8,6 @@ import {
 
 @Injectable()
 export class ProfileService {
-  uploadProfilePicture() {
-    throw new Error("Method not implemented.");
-  }
   constructor(private prisma: PrismaService) {}
 
   async getProfileByNickname(name: string): Promise<GetProfileFunction> {
@@ -52,5 +50,19 @@ export class ProfileService {
         sub,
       },
     });
+  }
+  async uploadProfilePicture(sub: string, file: any) {
+    const imageUrl: string = await uploadToS3(file);
+
+    await this.prisma.user.update({
+      data: {
+        profileImg: imageUrl,
+      },
+      where: {
+        sub,
+      },
+    });
+
+    return imageUrl;
   }
 }

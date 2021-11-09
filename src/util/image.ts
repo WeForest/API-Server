@@ -8,18 +8,13 @@ const s3bucket: AWS.S3 = new AWS.S3({
   params: { Bucket: process.env.AWS_BUCKET_NAME },
 });
 
-type ImageUpload = {
-  Bucket: string;
-  Key: string;
-  Body: fs.ReadStream;
-  ACL: string;
-};
-
-export const uploadToS3: Function = async (
-  fileName: string
-): Promise<string> => {
-  const readStream = fs.createReadStream(fileName);
-
+export const uploadToS3: Function = async ({
+  fileName,
+  file,
+}: {
+  fileName: string;
+  file: any;
+}): Promise<string> => {
   // 올해 년도로 폴더 지정
   const today = new Date();
   const year = String(today.getFullYear());
@@ -36,11 +31,12 @@ export const uploadToS3: Function = async (
   }
 
   // 올해년도 폴더 안에 key의 이름을 가진 파일로 저장
-  const params: ImageUpload = {
+  const params: AWS.S3.PutObjectRequest = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: year + "/" + key,
-    Body: readStream,
+    Key: year + "/" + fileName + key,
+    Body: file.buffer,
     ACL: "public-read",
+    ContentType: file.mimetype,
   };
 
   const upload: AWS.S3.ManagedUpload.SendData = await s3bucket

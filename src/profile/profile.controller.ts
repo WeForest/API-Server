@@ -81,8 +81,12 @@ export class ProfileController {
     description: "profile picture update",
     type: FileUploadDto,
   })
-  uploadFile(@Headers("authorization") @UploadedFile() file) {
+  async uploadFile(
+    @Headers("authorization") accessToken: string,
+    @UploadedFile() file
+  ): Promise<string> {
     console.log(file);
-    return this.profileService.uploadProfilePicture();
+    const sub = getSubByToken(accessToken);
+    return this.profileService.uploadProfilePicture(sub, file);
   }
 }
