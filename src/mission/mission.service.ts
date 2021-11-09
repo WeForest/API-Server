@@ -1,7 +1,7 @@
 import { Mission, User } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { GoalExp } from "@prisma/client";
-import { PrismaService } from "src/prisma.service";
+import { PrismaService } from "../prisma.service";
 import { CreateMission, MissionType } from "./mission.dto";
 
 @Injectable()
@@ -20,8 +20,15 @@ export class MissionService {
     return this.prisma.mission.findFirst({ where: { id: number } });
   }
 
-  async getMissionListByType(type: MissionType) {
-    return (await this.prisma.mission.findMany({ where: { type } }))[0];
+  async getMissionListByType(type: MissionType, page: number) {
+    return await this.prisma.mission.findMany({
+      where: { type },
+      orderBy: {
+        id: "asc",
+      },
+      skip: (page - 1) * 20,
+      take: 20,
+    });
   }
 
   async failedMissionBySub({ sub, number }: { sub: any; number: number }) {

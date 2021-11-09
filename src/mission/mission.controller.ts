@@ -47,14 +47,17 @@ export class MissionController {
     return this.missionService.getMissionByNumber(number);
   }
 
-  @Get(":type") // 타입으로 미션들 조회
+  @Get(":type/:page") // 타입으로 미션들 조회
   @ApiOperation({
     summary: "미션 리스트 조회",
     description: "미션을  타입으로 조회하는 API",
   })
   @ApiOkResponse({ description: "성공 시", type: MissionDTO })
-  async getMissionListByType(@Param("type") type: MissionType) {
-    return this.missionService.getMissionListByType(type);
+  async getMissionListByType(
+    @Param("type") type: MissionType,
+    @Param("page") page: number
+  ) {
+    return this.missionService.getMissionListByType(type, page);
   }
 
   @Patch("clear/:number") // 미션 성공시

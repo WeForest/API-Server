@@ -66,14 +66,6 @@ export class ProfileController {
     });
   }
 
-  @Get(":major")
-  @ApiOperation({
-    summary: "전공 컬럼 생성",
-    description: "전공 컬럼들을 생성합니다.",
-  })
-  @ApiOkResponse({ description: "성공 시", type: MajorDTO })
-  async addMajor(@Param("major") major: string) {}
-
   @Post("profile/picture")
   @UseInterceptors(FileInterceptor("file"))
   @ApiConsumes("multipart/form-data")
