@@ -13,7 +13,6 @@ import {
 import { ProfileService } from "./profile.service";
 import {
   FileUploadDto,
-  MajorDTO,
   ProfileInterface,
   UpdateProfileDataInterface,
 } from "./profile.dto";
@@ -66,7 +65,7 @@ export class ProfileController {
     });
   }
 
-  @Post("profile/picture")
+  @Post("picture")
   @UseInterceptors(FileInterceptor("file"))
   @ApiConsumes("multipart/form-data")
   @ApiBody({
