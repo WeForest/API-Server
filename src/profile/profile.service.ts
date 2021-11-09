@@ -7,6 +7,9 @@ import {
 
 @Injectable()
 export class ProfileService {
+  uploadProfilePicture() {
+    throw new Error("Method not implemented.");
+  }
   constructor(private prisma: PrismaService) {}
 
   async getProfileByNickname(name: string): Promise<GetProfileFunction> {

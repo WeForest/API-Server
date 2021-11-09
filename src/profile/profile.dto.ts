@@ -29,6 +29,8 @@ export interface UpdateProfileDataInterface {
   purpose?: string;
   Major?: Major[];
   Interests?: Interests[];
+  isJobSeeker?: boolean;
+  companyEmail?: string;
 }
 
 export interface UpdateProfileDataWithAccessToken {
@@ -69,7 +71,17 @@ export class UserDTO {
 
   @ApiProperty({ description: "유저의 경험치" })
   exp: number;
+}
 
-  @ApiProperty({ description: "액세스 토큰" })
-  accessToken?: string;
+export class MajorDTO {
+  @ApiProperty({ description: "아이디" })
+  id: number;
+
+  @ApiProperty({ description: "전공 문자열" })
+  major: string;
+}
+
+export class FileUploadDto {
+  @ApiProperty({ type: "file" })
+  file: any;
 }

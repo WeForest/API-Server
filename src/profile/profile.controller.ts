@@ -1,10 +1,32 @@
-import { Controller, Get, Param, Patch, Headers, Body } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Headers,
+  Body,
+  Post,
+  UseInterceptors,
+  UploadedFile,
+} from "@nestjs/common";
 
 import { ProfileService } from "./profile.service";
-import { ProfileInterface, UpdateProfileDataInterface } from "./profile.dto";
+import {
+  FileUploadDto,
+  MajorDTO,
+  ProfileInterface,
+  UpdateProfileDataInterface,
+} from "./profile.dto";
 import { getSubByToken } from "src/util/token";
-import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from "@nestjs/swagger";
 import { UserDTO } from "./profile.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("profile")
 @ApiTags("프로필 관련 API")
@@ -42,5 +64,25 @@ export class ProfileController {
       sub,
       updateData: body,
     });
+  }
+
+  @Get(":major")
+  @ApiOperation({
+    summary: "전공 컬럼 생성",
+    description: "전공 컬럼들을 생성합니다.",
+  })
+  @ApiOkResponse({ description: "성공 시", type: MajorDTO })
+  async addMajor(@Param("major") major: string) {}
+
+  @Post("profile/picture")
+  @UseInterceptors(FileInterceptor("file"))
+  @ApiConsumes("multipart/form-data")
+  @ApiBody({
+    description: "profile picture update",
+    type: FileUploadDto,
+  })
+  uploadFile(@Headers("authorization") @UploadedFile() file) {
+    console.log(file);
+    return this.profileService.uploadProfilePicture();
   }
 }
