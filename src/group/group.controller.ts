@@ -35,7 +35,7 @@ export class GroupController {
   async joinGroupById(
     @Headers("authorization") accessToken: string,
     @Param("id") id: number,
-    @Res() res: Response
+    @Res({ passthrough: true }) res: Response
   ) {
     res.status(201);
     return this.groupService.joinTheGroup({

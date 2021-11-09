@@ -21,7 +21,7 @@ export class AccountController {
   })
   async login(
     @Body() { token: googleToken }: LoginReq,
-    @Res() res: Response
+    @Res({ passthrough: true }) res: Response
   ): Promise<LoginRes> {
     const result: LoginReturnValue = await this.accountService.login(
       googleToken
