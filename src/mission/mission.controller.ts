@@ -44,7 +44,7 @@ export class MissionController {
   })
   @ApiOkResponse({ description: "성공 시", type: MissionDTO })
   async getMissionByNumber(@Param("number") number: number) {
-    return this.missionService.getMissionByNumber(number);
+    return this.missionService.getMissionByNumber(Number(number));
   }
 
   @Get(":type/:page") // 타입으로 미션들 조회
