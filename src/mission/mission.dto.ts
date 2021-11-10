@@ -1,8 +1,7 @@
-import { Mission } from ".prisma/client";
-import { ApiOkResponse, ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 
 export interface CreateMission {
-  level: number;
+  level: levelType;
   exp: number;
   title: string;
   content: string;
@@ -11,8 +10,8 @@ export interface CreateMission {
 }
 
 export class CreateMissionDTO {
-  @ApiProperty({ description: "최소 레벨" })
-  level: number;
+  @ApiProperty({ description: "난이도(low, middle, high)" })
+  level: levelType;
 
   @ApiProperty({ description: "미션 해결 시, 얻는 경험치 양" })
   exp: number;
@@ -38,7 +37,7 @@ export class MissionDTO extends CreateMissionDTO {
   createdAt: Date;
 }
 export type MissionType = "daily" | "weekly" | "monthly";
-
+export type levelType = "low" | "middle" | "high";
 export class UserDTO {
   @ApiProperty({ description: "유저 고유 값" })
   id: number;
