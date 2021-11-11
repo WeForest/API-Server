@@ -35,7 +35,7 @@ export interface UpdateProfileDataInterface {
 
 export class UpdateProfileDataDTO {
   @ApiProperty({ description: "유저 이름" })
-  name?: number;
+  name?: string;
 
   @ApiProperty({ description: "목표" })
   purpose?: string;
