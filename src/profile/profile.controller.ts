@@ -14,7 +14,7 @@ import { ProfileService } from "./profile.service";
 import {
   FileUploadDto,
   ProfileInterface,
-  UpdateProfileDataInterface,
+  UpdateProfileDataDTO,
 } from "./profile.dto";
 import { getSubByToken } from "src/util/token";
 import {
@@ -55,7 +55,7 @@ export class ProfileController {
   @ApiOkResponse({ description: "성공 시", type: UserDTO })
   async profileUpdate(
     @Headers("authorization") accessToken: string,
-    @Body() body: UpdateProfileDataInterface
+    @Body() body: UpdateProfileDataDTO
   ): Promise<any> {
     const sub = getSubByToken(accessToken);
 

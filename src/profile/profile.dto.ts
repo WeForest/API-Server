@@ -33,6 +33,25 @@ export interface UpdateProfileDataInterface {
   companyEmail?: string;
 }
 
+export class UpdateProfileDataDTO {
+  @ApiProperty({ description: "유저 이름" })
+  name?: number;
+
+  @ApiProperty({ description: "목표" })
+  purpose?: string;
+
+  @ApiProperty({ description: "전공" })
+  Major?: Major[];
+
+  @ApiProperty({ description: "흥미" })
+  Interests?: Interests[];
+
+  @ApiProperty({ description: "구인자인지" })
+  isJobSeeker?: boolean;
+
+  @ApiProperty({ description: "회사 이메일" })
+  companyEmail?: string;
+}
 export interface UpdateProfileDataWithAccessToken {
   sub: string;
   updateData: UpdateProfileDataInterface;
