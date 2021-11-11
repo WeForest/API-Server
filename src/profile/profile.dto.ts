@@ -54,7 +54,7 @@ export class UpdateProfileDataDTO {
 }
 export interface UpdateProfileDataWithAccessToken {
   sub: string;
-  updateData: UpdateProfileDataInterface;
+  updateData: UpdateProfileDataDTO;
 }
 
 export class UserDTO {
