@@ -84,7 +84,7 @@ model HasMission {
 
 model Chatting {
   id          Int           @id @default(autoincrement())
-  type        ChattingType?
+  type        String @default("dm") // dm, study
   ChattingLog ChattingLog[]
 }
 
@@ -98,9 +98,3 @@ model ChattingLog {
   chattingId Int
 }
 
-model ChattingType {
-  id         Int      @id @default(autoincrement())
-  type       String   @default("dm") // dm, study
-  chatting   Chatting @relation(fields: [chattingId], references: [id])
-  chattingId Int      @unique
-}
