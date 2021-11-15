@@ -36,6 +36,7 @@ model User {
   ChattingLog ChattingLog[]
   HasMission  HasMission[]
   StudyGroup  StudyGroup[]  @relation("GroupOwner")
+  chatting    ChattingParticipant[]  
 }
 
 model StudyGroup {
@@ -62,7 +63,7 @@ model Major {
 
 model Mission {
   id         Int          @id @default(autoincrement())
-  level      String @default("low") // low, middle , high
+  level      String       @default("low") // low, middle , high
   exp        Int
   title      String
   content    String
@@ -84,8 +85,18 @@ model HasMission {
 
 model Chatting {
   id          Int           @id @default(autoincrement())
-  type        String @default("dm") // dm, study
+  name        String?       @unique
+  type        String        @default("dm") // dm, study
   ChattingLog ChattingLog[]
+  chatting    ChattingParticipant[]  
+}
+
+model ChattingParticipant{
+  id Int @id @default(autoincrement())
+  participant User[]  @relation(fields: [userId], references: [id])
+  userId  Int
+  chatting Chatting[] @relation(fields: [chattingId], references: [id])
+  chattingId  Int
 }
 
 model ChattingLog {
@@ -97,4 +108,3 @@ model ChattingLog {
   chatting   Chatting @relation(fields: [chattingId], references: [id])
   chattingId Int
 }
-
