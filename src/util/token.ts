@@ -1,8 +1,8 @@
-import { AES } from "crypto-js";
+import { AES, enc } from "crypto-js";
 
 export const generatedTokenBySub: Function = (sub: string) =>
   AES.encrypt(
-    String(sub + process.env.DISTINGUISHER + Date.now().toString()),
+    enc.Utf8.parse(String(sub + process.env.DISTINGUISHER + Date.now().toString())),
     String(process.env.ACCESS_TOKEN_KEY)
   ).toString();
 
