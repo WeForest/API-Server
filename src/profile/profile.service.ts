@@ -56,17 +56,17 @@ export class ProfileService {
         purpose: profileUpdateData.purpose,
         isJobSeeker: profileUpdateData.isJobSeeker,
         companyEmail: profileUpdateData.companyEmail,
-        interested: {
-          deleteMany: {},
-          create: interested.map((interest: Interests) => ({
-            Interested: interest.Interested,
-          })),
-        },
-        major: {
-          deleteMany: {},
-          create: major.map((majorObject: Major) => ({
-            major: majorObject.major,
-          })),
+        // interested: {
+        //   deleteMany: {},
+        //   create: interested.map((interest: Interests) => ({
+        //     Interested: interest.Interested,
+        //   })),
+        // },
+        // major: {
+        //   deleteMany: {},
+        //   create: major.map((majorObject: Major) => ({
+        //     major: majorObject.major,
+        //   })),
         },
       },
     });
