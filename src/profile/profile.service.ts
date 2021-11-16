@@ -1,3 +1,4 @@
+import { Interests, Major } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { uploadToS3 } from "src/util/image";
 import { PrismaService } from "../prisma.service";
@@ -45,6 +46,7 @@ export class ProfileService {
     updateData,
   }: UpdateProfileDataWithAccessToken): Promise<any> {
     const { interested, major, ...profileUpdateData } = updateData;
+    console.log(interested, major);
     await this.prisma.user.update({
       data: {
         name: profileUpdateData.name,
@@ -53,11 +55,15 @@ export class ProfileService {
         companyEmail: profileUpdateData.companyEmail,
         interested: {
           deleteMany: {},
-          create: interested,
+          create: interested.map((interest: Interests) => ({
+            Interested: interest.Interested,
+          })),
         },
         major: {
           deleteMany: {},
-          create: major,
+          create: major.map((majorObject: Major) => ({
+            major: majorObject.major,
+          })),
         },
       },
       where: {
