@@ -48,6 +48,9 @@ export class ProfileService {
     const { interested, major, ...profileUpdateData } = updateData;
     console.log(interested, major);
     await this.prisma.user.update({
+      where: {
+        sub,
+      },
       data: {
         name: profileUpdateData.name,
         purpose: profileUpdateData.purpose,
@@ -65,9 +68,6 @@ export class ProfileService {
             major: majorObject.major,
           })),
         },
-      },
-      where: {
-        sub,
       },
     });
   }

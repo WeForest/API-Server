@@ -51,13 +51,13 @@ model StudyGroup {
 
 model Interests {
   id         Int    @id @default(autoincrement())
-  Interested String @unique
+  Interested String 
   users      User[] @relation(references: [id])
 }
 
 model Major {
   id    Int    @id @default(autoincrement())
-  major String @unique
+  major String 
   users User[] @relation(references: [id])
 }
 
