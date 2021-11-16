@@ -1,4 +1,4 @@
-import { AES, enc } from "crypto-js";
+import { AES } from "crypto-js";
 
 export const generatedTokenBySub: Function = (sub: string) =>
   AES.encrypt(
@@ -7,6 +7,6 @@ export const generatedTokenBySub: Function = (sub: string) =>
   ).toString();
 
 export const getSubByToken: Function = (token: string) =>
-  AES.decrypt(token, process.env.ACCESS_TOKEN_KEY)
+  AES.decrypt(String(token), String(process.env.ACCESS_TOKEN_KEY))
     .toString()
     .split(process.env.DISTINGUISHER)[0];
