@@ -11,6 +11,16 @@ export interface CreateGroupInform {
   tags: string;
 }
 
+export class CreateGroupDTO {
+  @ApiProperty({ description: "그룹 이름" })
+  name: string;
+
+  @ApiProperty({ description: "그룹 설명" })
+  description: string;
+
+  @ApiProperty({ description: "태그들, 통으로 스트링이니 주의" })
+  tags: string;
+}
 export interface CreateGroupMethodInform extends CreateGroupInform {
   sub: string;
 }

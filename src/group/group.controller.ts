@@ -16,7 +16,7 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { getSubByToken } from "src/util/token";
-import { CreateGroupInform, GroupDTO } from "./group.dto";
+import { CreateGroupDTO, CreateGroupInform, GroupDTO } from "./group.dto";
 import { GroupService } from "./group.service";
 import { Response } from "express";
 import { StudyGroup } from ".prisma/client";
@@ -46,7 +46,7 @@ export class GroupController {
 
   @Patch(":id")
   @ApiOperation({
-    summary: "그룹 가입",
+    summary: "그룹 탈퇴",
     description: "id값에 해당하는 그룹에 유저를 탈퇴시킵니다.",
   })
   @ApiCreatedResponse({ description: "성공 시" })
@@ -68,7 +68,7 @@ export class GroupController {
   @ApiOkResponse({ description: "성공 시", type: GroupDTO })
   async createGroup(
     @Headers("authorization") accessToken: string,
-    @Body() groupInform: CreateGroupInform
+    @Body() groupInform: CreateGroupDTO
   ): Promise<StudyGroup> {
     return this.groupService.createGroup(
       Object.assign(
