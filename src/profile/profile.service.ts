@@ -44,8 +44,16 @@ export class ProfileService {
     sub,
     updateData,
   }: UpdateProfileDataWithAccessToken): Promise<any> {
+    const { interested, major, ...profileUpdateData } = updateData;
     await this.prisma.user.update({
-      data: updateData,
+      data: Object.assign(
+        {},
+        profileUpdateData,
+        {
+          interested: { create: interested },
+        },
+        { major: { create: major } }
+      ),
       where: {
         sub,
       },

@@ -27,8 +27,8 @@ export interface GetProfileFunction extends ProfileInterface {
 export interface UpdateProfileDataInterface {
   name?: string;
   purpose?: string;
-  Major?: Major[];
-  Interests?: Interests[];
+  major?: Major[];
+  interested?: Interests[];
   isJobSeeker?: boolean;
   companyEmail?: string;
 }
@@ -41,10 +41,10 @@ export class UpdateProfileDataDTO {
   purpose?: string;
 
   @ApiProperty({ description: "전공" })
-  Major?: Major[];
+  major?: Major[];
 
   @ApiProperty({ description: "흥미" })
-  Interests?: Interests[];
+  interested?: Interests[];
 
   @ApiProperty({ description: "구인자인지" })
   isJobSeeker?: boolean;
