@@ -10,6 +10,7 @@ import { ProfileModule } from "./profile/profile.module";
 import { GroupModule } from "./group/group.module";
 import { ChatGateway } from "./chat.gateway";
 import { PrismaService } from "./prisma.service";
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PrismaService } from "./prisma.service";
     MissionModule,
     ProfileModule,
     GroupModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway, PrismaService],

@@ -3,22 +3,15 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
 } from "@nestjs/websockets";
-import { stringify } from "querystring";
 
-import { Server, Socket } from "socket.io";
+import { Socket } from "socket.io";
 import { PrismaService } from "./prisma.service";
 import { getSubByToken } from "./util/token";
 
 @WebSocketGateway(81, { namespace: "chat" })
 export class ChatGateway {
   constructor(private prisma: PrismaService) {}
-
-  @WebSocketServer()
-  server: Server;
-
-  wsClients: ChattingRoomInterface;
 
   @SubscribeMessage("connect")
   async connectSocket(
@@ -82,12 +75,4 @@ export class ChatGateway {
   async disConnectSocket(@ConnectedSocket() client: Socket) {
     client.disconnect();
   }
-}
-
-interface ChattingRoomInterface {
-  [k: string]: { type: "dm" | "study"; userList: UserSocket[] };
-}
-
-interface UserSocket {
-  [k: string]: Socket;
 }
