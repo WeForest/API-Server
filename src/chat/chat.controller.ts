@@ -1,5 +1,7 @@
 import { Controller, Get, Param, Res, Query } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Response } from "express";
+
 import { ChatService } from "./chat.service";
 
 @Controller("chat")
