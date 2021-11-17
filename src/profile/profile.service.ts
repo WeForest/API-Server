@@ -51,22 +51,22 @@ export class ProfileService {
         sub,
       },
       data: {
-        // name: profileUpdateData.name,
+        name: profileUpdateData.name,
         purpose: "랄랄라랄ㄹ",
-        // isJobSeeker: profileUpdateData.isJobSeeker,
-        // companyEmail: profileUpdateData.companyEmail,
-        // interested: {
-        //   deleteMany: {},
-        //   create: interested.map((interest: Interests) => ({
-        //     Interested: interest.Interested,
-        //   })),
-        // },
-        // major: {
-        //   deleteMany: {},
-        //   create: major.map((majorObject: Major) => ({
-        //     major: majorObject.major,
-        //   })),
-        // },
+        isJobSeeker: profileUpdateData.isJobSeeker,
+        companyEmail: profileUpdateData.companyEmail,
+        interested: {
+          deleteMany: {},
+          create: interested.map((interest: Interests) => ({
+            Interested: interest.Interested,
+          })),
+        },
+        major: {
+          deleteMany: {},
+          create: major.map((majorObject: Major) => ({
+            major: majorObject.major,
+          })),
+        },
       },
     });
   }

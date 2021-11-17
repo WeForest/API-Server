@@ -58,7 +58,6 @@ export class ProfileController {
     @Body() body: UpdateProfileDataDTO
   ): Promise<any> {
     const sub = getSubByToken(accessToken);
-    console.log(sub);
     const _ = await this.profileService.updateProfileByAccessToken({
       sub,
       updateData: body,

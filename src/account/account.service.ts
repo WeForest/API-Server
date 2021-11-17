@@ -20,7 +20,6 @@ export class AccountService {
   async login(token: string): Promise<LoginReturnValue> {
     const verified: TokenPayload = await verify(token); // verify google token
     const { sub } = verified;
-    console.log("sub : ", sub);
     const searchData: UserByPrisma = { prisma: this.prisma, sub };
 
     let user = await findUserBySub(searchData);
@@ -32,10 +31,8 @@ export class AccountService {
         })
       );
     }
-    console.log(user);
 
     const generatedToken: string = generatedTokenBySub(sub);
-    console.log("token : ", generatedToken);
     await updateAccessTokenAtUser({ prisma: this.prisma, sub, generatedToken });
 
     return { token: generatedToken, success: true, status: 200 };

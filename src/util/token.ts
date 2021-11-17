@@ -11,7 +11,6 @@ export const getSubByToken: Function = (token: string) => {
     String(token),
     String(process.env.ACCESS_TOKEN_KEY)
   );
-  console.log(decryptToken);
 
   return decryptToken.toString(enc.Utf8).split(process.env.DISTINGUISHER)[0];
 };
