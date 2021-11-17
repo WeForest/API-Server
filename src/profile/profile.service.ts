@@ -46,16 +46,15 @@ export class ProfileService {
     updateData,
   }: UpdateProfileDataWithAccessToken): Promise<any> {
     const { interested, major, ...profileUpdateData } = updateData;
-    console.log(interested, major);
     await this.prisma.user.update({
       where: {
         sub,
       },
       data: {
-        name: profileUpdateData.name,
-        purpose: profileUpdateData.purpose,
-        isJobSeeker: profileUpdateData.isJobSeeker,
-        companyEmail: profileUpdateData.companyEmail,
+        // name: profileUpdateData.name,
+        purpose: "랄랄라랄ㄹ",
+        // isJobSeeker: profileUpdateData.isJobSeeker,
+        // companyEmail: profileUpdateData.companyEmail,
         // interested: {
         //   deleteMany: {},
         //   create: interested.map((interest: Interests) => ({
@@ -67,10 +66,11 @@ export class ProfileService {
         //   create: major.map((majorObject: Major) => ({
         //     major: majorObject.major,
         //   })),
-        },
+        // },
       },
     });
   }
+
   async uploadProfilePicture(sub: string, file: any) {
     const imageUrl: string = await uploadToS3(file);
 
