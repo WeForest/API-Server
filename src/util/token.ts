@@ -6,7 +6,11 @@ export const generatedTokenBySub: Function = (sub: string) =>
     String(process.env.ACCESS_TOKEN_KEY)
   ).toString();
 
-export const getSubByToken: Function = (token: string) =>
-  AES.decrypt(String(token), String(process.env.ACCESS_TOKEN_KEY))
-    .toString()
-    .split(process.env.DISTINGUISHER)[0];
+export const getSubByToken: Function = (token: string) => {
+  const decryptToken: String = AES.decrypt(
+    String(token),
+    String(process.env.ACCESS_TOKEN_KEY)
+  ).toString();
+  console.log(decryptToken);
+  return decryptToken.split(process.env.DISTINGUISHER)[0];
+};
