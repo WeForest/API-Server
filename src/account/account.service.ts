@@ -31,6 +31,7 @@ export class AccountService {
         })
       );
     }
+    console.log(user);
 
     const generatedToken: string = generatedTokenBySub(sub);
 
