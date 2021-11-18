@@ -31,13 +31,12 @@ export class GroupController {
     summary: "그룹 가입",
     description: "id값에 해당하는 그룹에 유저를 가입시킵니다.",
   })
-  @ApiCreatedResponse({ description: "성공 시", type: GroupDTO })
+  @ApiOkResponse({ description: "성공 시", type: GroupDTO })
   async joinGroupById(
     @Headers("authorization") accessToken: string,
     @Param("id") id: number,
     @Res({ passthrough: true }) res: Response
   ) {
-    res.status(201);
     return this.groupService.joinTheGroup({
       sub: getSubByToken(accessToken),
       id,

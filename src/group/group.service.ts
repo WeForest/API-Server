@@ -31,6 +31,8 @@ export class GroupService {
         },
       },
     });
+
+    return willJoingroup;
   }
 
   async withdrawGroupById({ sub, id }: AboutGroup) {
