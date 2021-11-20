@@ -104,7 +104,7 @@ export class GroupController {
     });
   }
 
-  @Get(":page")
+  @Get("list/:page")
   @ApiOperation({
     summary: "그룹 검색",
     description: "그룹을 검색합니다.",
