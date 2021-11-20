@@ -110,14 +110,14 @@ export class GroupController {
     });
   }
 
-  @Get("")
+  @Get(":page")
   @ApiOperation({
     summary: "그룹 검색",
     description: "그룹을 검색합니다.",
   })
   @ApiOkResponse({ description: "성공 시", type: [GroupDTO] })
   async searchGroup(
-    @Query("page") page: number,
+    @Param("page") page: number,
     @Query("k") keyword: string,
     @Res({ passthrough: true }) res: Response
   ) {
