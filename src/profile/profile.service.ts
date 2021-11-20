@@ -46,6 +46,8 @@ export class ProfileService {
     updateData,
   }: UpdateProfileDataWithAccessToken): Promise<any> {
     const { interested, major, ...profileUpdateData } = updateData;
+    const user = await this.prisma.user.findUnique({ where: { sub } });
+
     return this.prisma.user.update({
       where: {
         sub,
@@ -56,15 +58,17 @@ export class ProfileService {
         isJobSeeker: profileUpdateData.isJobSeeker,
         companyEmail: profileUpdateData.companyEmail,
         interested: {
-          deleteMany: {},
+          deleteMany: { userId: user.id },
           create: interested.map((interest: Interests) => ({
             Interested: interest.Interested,
+            userId: user.id,
           })),
         },
         major: {
-          deleteMany: {},
+          deleteMany: { userId: user.id },
           create: major.map((majorObject: Major) => ({
             major: majorObject.major,
+            userId: user.id,
           })),
         },
       },

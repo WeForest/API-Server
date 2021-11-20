@@ -57,11 +57,9 @@ export class GroupService {
         name,
         description,
         tags,
-        owner: {
-          connect: {
-            sub,
-          },
-        },
+        owner: { connect: { sub } },
+        StudyMember: { create: { member: { connect: { sub } } } },
+        chatting: { create: { type: "group" } },
       },
     });
   }

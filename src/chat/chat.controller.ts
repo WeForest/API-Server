@@ -21,6 +21,6 @@ export class ChatController {
     @Query("k") keyword: string,
     @Res({ passthrough: true }) res: Response
   ) {
-    return this.chatService.findChattingGroup({ page, keyword });
+    return await this.chatService.findChattingGroup({ page, keyword });
   }
 }
