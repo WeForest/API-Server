@@ -14,7 +14,7 @@ export class GroupService {
           group: true,
         },
       })
-    ).group;
+    )?.group;
 
     const willJoingroup = await this.prisma.studyGroup.findUnique({
       where: { id },
@@ -27,7 +27,7 @@ export class GroupService {
       data: {
         group: {
           deleteMany: {},
-          create: [...userHasGroup, willJoingroup],
+          create: [...(userHasGroup ?? []), willJoingroup],
         },
       },
     });
