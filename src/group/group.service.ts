@@ -62,6 +62,11 @@ export class GroupService {
             sub,
           },
         },
+        users: {
+          connect: {
+            sub,
+          },
+        },
       },
     });
   }
