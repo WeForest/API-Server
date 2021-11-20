@@ -52,7 +52,7 @@ export class MissionController {
     summary: "미션 리스트 조회",
     description: "미션을  타입으로 조회하는 API",
   })
-  @ApiOkResponse({ description: "성공 시", type: MissionDTO })
+  @ApiOkResponse({ description: "성공 시", type: [MissionDTO] })
   async getMissionListByType(
     @Param("type") type: MissionType,
     @Param("page") page: number

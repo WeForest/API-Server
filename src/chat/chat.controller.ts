@@ -15,7 +15,7 @@ export class ChatController {
     summary: "채팅 그룹 검색",
     description: "채팅 그룹을 검색합니다.",
   })
-  @ApiOkResponse({ description: "성공 시", type: ChattingSearchResultDTO })
+  @ApiOkResponse({ description: "성공 시", type: [ChattingSearchResultDTO] })
   async findChattingGroup(
     @Param("page") page: number,
     @Query("k") keyword: string,
