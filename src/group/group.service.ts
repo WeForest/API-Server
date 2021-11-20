@@ -51,6 +51,7 @@ export class GroupService {
   }
 
   async createGroup({ name, description, tags, sub }: CreateGroupMethodInform) {
+    console.log(name, description, tags, sub);
     return this.prisma.studyGroup.create({
       data: {
         name,

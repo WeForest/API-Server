@@ -8,7 +8,7 @@ export class ChatService {
 
   async findChattingGroup({ page, keyword }: FindChattingQueryInterface) {
     return this.prisma.chatting.findMany({
-      where: { name: { contains: keyword } },
+      where: { name: { contains: keyword ?? "" } },
       orderBy: { id: "asc" },
       take: 20,
       skip: (page - 1) * 20,
