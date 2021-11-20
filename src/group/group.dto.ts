@@ -41,3 +41,11 @@ export class GroupDTO {
   @ApiProperty({ description: "그룹 생성자 고유 번호" })
   ownerId: number;
 }
+
+export class CreateGroupResponseDTO {
+  @ApiProperty({ description: "성공여부" })
+  success: boolean;
+
+  @ApiProperty({ description: "그룹 데이터" })
+  group?: GroupDTO;
+}
