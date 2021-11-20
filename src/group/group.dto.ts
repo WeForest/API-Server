@@ -39,7 +39,7 @@ export class GroupDTO {
   tags: string;
 
   @ApiProperty({ description: "그룹 생성자 고유 번호" })
-  ownerId: number;
+  userId: number;
 }
 
 export class CreateGroupResponseDTO {

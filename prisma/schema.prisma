@@ -32,33 +32,44 @@ model User {
   following   User[]                @relation("FollowRelation", references: [id])
   major       Major[]               @relation(references: [id])
   interested  Interests[]           @relation(references: [id])
-  group       StudyGroup[]          @relation("JoinTheGroup", references: [id])
+  group       StudyGroup[]
   ChattingLog ChattingLog[]
   HasMission  HasMission[]
   chatting    ChattingParticipant[]
-  StudyGroup  StudyGroup[]          @relation("GroupOwner")
-}
-
-model StudyGroup {
-  id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  tags        String
-  users       User[] @relation("JoinTheGroup", references: [id])
-  owner       User   @relation("GroupOwner", references: [id], fields: [userId])
-  userId      Int
+  StudyMember StudyMember[]
 }
 
 model Interests {
   id         Int    @id @default(autoincrement())
   Interested String
-  users      User[] @relation(references: [id])
+  users      User[] @relation(fields: [userId], references: [id])
+  userId     Int
 }
 
 model Major {
-  id    Int    @id @default(autoincrement())
-  major String
-  users User[] @relation(references: [id])
+  id     Int    @id @default(autoincrement())
+  major  String
+  users  User[] @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model StudyGroup {
+  id          Int           @id @default(autoincrement())
+  description String
+  name        String
+  tags        String
+  owner       User          @relation(fields: [userId], references: [id])
+  userId      Int
+  StudyMember StudyMember[]
+  Chatting    Chatting[]
+}
+
+model StudyMember {
+  id           Int        @id @default(autoincrement())
+  member       User       @relation(fields: [memberId], references: [id])
+  memberId     Int
+  StudyGroup   StudyGroup @relation(fields: [studyGroupId], references: [id])
+  studyGroupId Int
 }
 
 model Mission {
@@ -84,11 +95,12 @@ model HasMission {
 }
 
 model Chatting {
-  id          Int                   @id @default(autoincrement())
-  name        String?               @unique
-  type        String                @default("dm") // dm, study
-  ChattingLog ChattingLog[]
-  chatting    ChattingParticipant[]
+  id           Int                   @id @default(autoincrement())
+  type         String                @default("dm") // dm, study
+  ChattingLog  ChattingLog[]
+  chatting     ChattingParticipant[]
+  StudyGroup   StudyGroup?           @relation(fields: [studyGroupId], references: [id])
+  studyGroupId Int?
 }
 
 model ChattingParticipant {
