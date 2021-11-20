@@ -17,15 +17,9 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { getSubByToken } from "src/util/token";
-import {
-  CreateGroupDTO,
-  CreateGroupInform,
-  CreateGroupResponseDTO,
-  GroupDTO,
-} from "./group.dto";
+import { CreateGroupDTO, CreateGroupResponseDTO, GroupDTO } from "./group.dto";
 import { GroupService } from "./group.service";
 import { Response } from "express";
-import { StudyGroup } from ".prisma/client";
 
 @Controller("group")
 @ApiTags("그룹 관련 API")
