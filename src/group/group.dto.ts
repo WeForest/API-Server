@@ -5,6 +5,11 @@ export interface AboutGroup {
   id: number;
 }
 
+export interface SearchGroup {
+  page: number;
+  keyword: string;
+}
+
 export interface CreateGroupInform {
   name: string;
   description: string;

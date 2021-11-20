@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import { AboutGroup, CreateGroupMethodInform } from "./group.dto";
+import { AboutGroup, CreateGroupMethodInform, SearchGroup } from "./group.dto";
 
 @Injectable()
 export class GroupService {
@@ -73,5 +73,14 @@ export class GroupService {
     ).owner;
     owner.sub === sub &&
       (await this.prisma.studyGroup.delete({ where: { id } }));
+  }
+
+  async findStudyGroup({ page, keyword }: SearchGroup) {
+    return this.prisma.studyGroup.findMany({
+      where: { name: { contains: keyword ?? "" } },
+      orderBy: { id: "asc" },
+      take: 20,
+      skip: (page - 1) * 20,
+    });
   }
 }
