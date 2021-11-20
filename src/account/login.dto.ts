@@ -19,6 +19,9 @@ export class LoginResDTO {
 
   @ApiProperty({ description: "실패시의 값" })
   message?: string;
+
+  @ApiProperty({ description: "로그인인지" })
+  isLogin: boolean;
 }
 export interface LoginRes extends Login {
   success: boolean;
@@ -26,6 +29,7 @@ export interface LoginRes extends Login {
 }
 
 export interface LoginReturnValue extends LoginRes {
+  isLogin: boolean;
   status: number;
 }
 

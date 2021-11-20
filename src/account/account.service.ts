@@ -23,6 +23,7 @@ export class AccountService {
     const searchData: UserByPrisma = { prisma: this.prisma, sub };
 
     let user = await findUserBySub(searchData);
+    let isLogin: boolean = true;
     if (!user) {
       user = await createUser(
         Object.assign({}, searchData, {
@@ -30,11 +31,17 @@ export class AccountService {
           email: verified.email,
         })
       );
+      isLogin = false;
     }
 
     const generatedToken: string = generatedTokenBySub(sub);
     await updateAccessTokenAtUser({ prisma: this.prisma, sub, generatedToken });
 
-    return { token: generatedToken, success: true, status: 200 };
+    return {
+      token: generatedToken,
+      success: true,
+      status: 200,
+      isLogin: isLogin,
+    };
   }
 }
