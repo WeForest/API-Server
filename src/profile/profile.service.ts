@@ -89,4 +89,72 @@ export class ProfileService {
 
     return imageUrl;
   }
+
+  async getFollowerByNickname(name: string) {
+    const result = await this.prisma.user.findFirst({
+      select: {
+        followers: {
+          select: {
+            email: true,
+            name: true,
+            followers: true,
+            following: true,
+            authCompany: true,
+            exp: true,
+            level: true,
+            companyEmail: true,
+            isJobSeeker: true,
+            purpose: true,
+            major: true,
+            group: true,
+            accessToken: true,
+            interested: true,
+            profileImg: true,
+          },
+        },
+      },
+      where: {
+        name,
+      },
+    });
+
+    return Object.assign({}, result, {
+      success: true,
+      message: "success get profile",
+    });
+  }
+
+  async getFollowingByNickname(name: string) {
+    const result = await this.prisma.user.findFirst({
+      select: {
+        following: {
+          select: {
+            email: true,
+            name: true,
+            followers: true,
+            following: true,
+            authCompany: true,
+            exp: true,
+            level: true,
+            companyEmail: true,
+            isJobSeeker: true,
+            purpose: true,
+            major: true,
+            group: true,
+            accessToken: true,
+            interested: true,
+            profileImg: true,
+          },
+        },
+      },
+      where: {
+        name,
+      },
+    });
+
+    return Object.assign({}, result, {
+      success: true,
+      message: "success get profile",
+    });
+  }
 }

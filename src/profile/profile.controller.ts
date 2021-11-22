@@ -47,6 +47,42 @@ export class ProfileController {
     return datas;
   }
 
+  @Get(":nickname/follower")
+  @ApiOperation({
+    summary: "팔로워 조회",
+    description: "팔로워를 조회해드립니다",
+  })
+  @ApiOkResponse({ description: "성공 시", type: [UserDTO] })
+  async followerJoin(
+    @Param("nickname") nickname: string
+  ): Promise<UserDTO | { message: string }> {
+    const result = await this.profileService.getFollowerByNickname(nickname);
+
+    const { success, message, ...datas } = result;
+    if (!success) {
+      return { message: message ?? "에러." };
+    }
+    return { ...datas.followers, message };
+  }
+
+  @Get(":nickname/following")
+  @ApiOperation({
+    summary: "팔로잉 조회",
+    description: "팔로잉을 조회해드립니다",
+  })
+  @ApiOkResponse({ description: "성공 시", type: [UserDTO] })
+  async followingJoin(
+    @Param("nickname") nickname: string
+  ): Promise<UserDTO | { message: string }> {
+    const result = await this.profileService.getFollowingByNickname(nickname);
+
+    const { success, message, ...datas } = result;
+    if (!success) {
+      return { message: message ?? "에러." };
+    }
+    return { ...datas.following, message };
+  }
+
   @Patch("update")
   @ApiOperation({
     summary: "프로필 업데이트",
