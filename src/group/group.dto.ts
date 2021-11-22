@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { UserDTO } from "../profile/profile.dto";
 
 export interface AboutGroup {
   sub: string;
@@ -47,6 +48,15 @@ export class GroupDTO {
   userId: number;
 }
 
+export class GroupDTOExtendsGroupMemberDTO extends GroupDTO {
+  @ApiProperty({ description: "그룹 멤버" })
+  StudyMember: GroupMemberDTO[];
+}
+
+export class GroupMemberDTO {
+  @ApiProperty({ description: "그룹 멤버들" })
+  member: UserDTO;
+}
 export class CreateGroupResponseDTO {
   @ApiProperty({ description: "성공여부" })
   success: boolean;

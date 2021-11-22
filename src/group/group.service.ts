@@ -17,7 +17,7 @@ export class GroupService {
     )?.group;
 
     const willJoingroup = await this.prisma.studyGroup.findUnique({
-      where: { id : Number(id)}, 
+      where: { id: Number(id) },
     });
 
     await this.prisma.user.update({
@@ -32,7 +32,10 @@ export class GroupService {
       },
     });
 
-    return willJoingroup;
+    return this.prisma.studyGroup.findUnique({
+      where: { id: Number(id) },
+      select: { StudyMember: { select: { member: true } } },
+    });
   }
 
   async withdrawGroupById({ sub, id }: AboutGroup) {

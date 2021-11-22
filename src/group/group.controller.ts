@@ -17,7 +17,12 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { getSubByToken } from "src/util/token";
-import { CreateGroupDTO, CreateGroupResponseDTO, GroupDTO } from "./group.dto";
+import {
+  CreateGroupDTO,
+  CreateGroupResponseDTO,
+  GroupDTO,
+  GroupDTOExtendsGroupMemberDTO,
+} from "./group.dto";
 import { GroupService } from "./group.service";
 import { Response } from "express";
 
@@ -31,7 +36,10 @@ export class GroupController {
     summary: "그룹 가입",
     description: "id값에 해당하는 그룹에 유저를 가입시킵니다.",
   })
-  @ApiOkResponse({ description: "성공 시", type: GroupDTO })
+  @ApiOkResponse({
+    description: "성공 시",
+    type: GroupDTOExtendsGroupMemberDTO,
+  })
   async joinGroupById(
     @Headers("authorization") accessToken: string,
     @Param("id") id: number,
