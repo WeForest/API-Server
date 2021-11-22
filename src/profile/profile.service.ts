@@ -163,6 +163,11 @@ export class ProfileService {
       where: { name: nickname },
     });
 
+    await this.prisma.user.update({
+      where: { id: followedUser.id },
+      data: { followers: { connect: { sub } } },
+    });
+
     return this.prisma.user.update({
       where: { sub },
       data: {
