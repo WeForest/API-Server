@@ -83,6 +83,19 @@ export class ProfileController {
     return { ...datas.following, message };
   }
 
+  @Post(":nickname")
+  @ApiOperation({
+    summary: "팔로우하기",
+    description: "팔로우하버리기",
+  })
+  @ApiOkResponse({ description: "성공 시", type: UserDTO })
+  async followUser(
+    @Headers("authorization") token: string,
+    @Param("nickname") nickname: string
+  ) {
+    const sub = getSubByToken(token);
+    return this.profileService.followUser(nickname, sub);
+  }
   @Patch("update")
   @ApiOperation({
     summary: "프로필 업데이트",

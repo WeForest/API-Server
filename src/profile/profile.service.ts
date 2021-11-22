@@ -157,4 +157,17 @@ export class ProfileService {
       message: "success get profile",
     });
   }
+
+  async followUser(nickname: string, sub: string) {
+    const followedUser = await this.prisma.user.findFirst({
+      where: { name: nickname },
+    });
+
+    return this.prisma.user.update({
+      where: { sub },
+      data: {
+        following: { connect: { id: followedUser.id } },
+      },
+    });
+  }
 }
