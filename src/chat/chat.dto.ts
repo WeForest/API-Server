@@ -1,5 +1,6 @@
 import { ChattingLog, ChattingParticipant } from ".prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserDTO } from "../profile/profile.dto";
 
 export interface FindChattingQueryInterface {
   page: number;
@@ -35,4 +36,7 @@ export class ChattingLogDTO {
 
   @ApiProperty({ description: "채팅 id" })
   chattingId: number;
+
+  @ApiProperty({ description: "유저" })
+  user: UserDTO;
 }

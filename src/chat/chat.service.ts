@@ -19,6 +19,12 @@ export class ChatService {
   async getChattingLogByChannel(chattingId: number) {
     return this.prisma.chattingLog.findMany({
       where: { chattingId },
+      select: {
+        id: true,
+        userId: true,
+        chattingId: true,
+        user: true,
+      },
     });
   }
 }
