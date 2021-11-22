@@ -57,7 +57,9 @@ export class ChatGateway {
     const clientUser = await this.prisma.user.findUnique({
       where: { sub: getSubByToken(token) },
     });
-    client.broadcast.to(roomId).emit("sendMessage", [clientUser.nickname, message]);
+    client.broadcast
+      .to(roomId)
+      .emit("sendMessage", [clientUser.name, clientUser.profileImg, message]);
   }
 
   @SubscribeMessage("leave")
