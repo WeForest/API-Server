@@ -53,8 +53,11 @@ export class ChatGateway {
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
   ) {
-    const [roomId, message] = data;
-    client.broadcast.to(roomId).emit("sendMessage", message);
+    const [token, roomId, message] = data;
+    const clientUser = await this.prisma.user.findUnique({
+      where: { sub: getSubByToken(token) },
+    });
+    client.broadcast.to(roomId).emit("sendMessage", [clientUser.nickname, message]);
   }
 
   @SubscribeMessage("leave")
