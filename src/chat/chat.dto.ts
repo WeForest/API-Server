@@ -22,3 +22,17 @@ export class ChattingSearchResultDTO {
   @ApiProperty({ description: "채팅 참가자" })
   ChattingParticipant: ChattingParticipant;
 }
+
+export class ChattingLogDTO {
+  @ApiProperty({ description: "ID" })
+  id: number;
+
+  @ApiProperty({ description: "채팅 내용" })
+  content: string;
+
+  @ApiProperty({ description: "유저 id" })
+  userId: number;
+
+  @ApiProperty({ description: "채팅 id" })
+  chattingId: number;
+}

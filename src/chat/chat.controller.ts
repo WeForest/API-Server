@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
-import { ChattingSearchResultDTO } from "./chat.dto";
+import { ChattingLogDTO, ChattingSearchResultDTO } from "./chat.dto";
 
 import { ChatService } from "./chat.service";
 
@@ -21,6 +21,16 @@ export class ChatController {
     @Query("k") keyword: string,
     @Res({ passthrough: true }) res: Response
   ) {
-    return await this.chatService.findChattingGroup({ page, keyword });
+    return this.chatService.findChattingGroup({ page, keyword });
+  }
+
+  @Get("log/:channel")
+  @ApiOperation({
+    summary: "채팅 로그 가져오기",
+    description: "채팅로그를 가져온다고 하네요",
+  })
+  @ApiOkResponse({ description: "성공 시", type: [ChattingLogDTO] })
+  async getChattingLogByChannel(@Param("channel") ch: number) {
+    return this.chatService.getChattingLogByChannel(ch);
   }
 }

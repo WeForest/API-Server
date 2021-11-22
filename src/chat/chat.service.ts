@@ -15,4 +15,10 @@ export class ChatService {
       skip: (page - 1) * 20,
     });
   }
+
+  async getChattingLogByChannel(chattingId: number) {
+    return this.prisma.chattingLog.findMany({
+      where: { chattingId },
+    });
+  }
 }
