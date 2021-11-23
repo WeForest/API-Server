@@ -5,6 +5,29 @@ import { UserDTO } from "./profile/profile.dto";
 import { questions } from "./util/config";
 import { getSubByToken } from "./util/token";
 
+export class QuestionDTO {
+  @ApiProperty({ description: "문제 넘버" })
+  questions_num: string;
+
+  @ApiProperty({ description: "문제 내용" })
+  questions: string;
+
+  @ApiProperty({ description: "첫번째 문항" })
+  one_num: string;
+
+  @ApiProperty({ description: "두번째 문항" })
+  two_num: string;
+
+  @ApiProperty({ description: "세번째 문항" })
+  three_num: string;
+
+  @ApiProperty({ description: "네번째 문항" })
+  four_num: string;
+
+  @ApiProperty({ description: "답 문항" })
+  answer: string;
+}
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -32,27 +55,4 @@ export class AppController {
     const sub = getSubByToken(token);
     return this.appService.clearQuestion(sub, answerCount);
   }
-}
-
-export class QuestionDTO {
-  @ApiProperty({ description: "문제 넘버" })
-  questions_num: string;
-
-  @ApiProperty({ description: "문제 내용" })
-  questions: string;
-
-  @ApiProperty({ description: "첫번째 문항" })
-  one_num: string;
-
-  @ApiProperty({ description: "두번째 문항" })
-  two_num: string;
-
-  @ApiProperty({ description: "세번째 문항" })
-  three_num: string;
-
-  @ApiProperty({ description: "네번째 문항" })
-  four_num: string;
-
-  @ApiProperty({ description: "답 문항" })
-  answer: string;
 }
