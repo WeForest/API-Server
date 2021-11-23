@@ -1,7 +1,9 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Post, Headers, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiProperty } from "@nestjs/swagger";
 import { AppService } from "./app.service";
+import { UserDTO } from "./profile/profile.dto";
 import { questions } from "./util/config";
+import { getSubByToken } from "./util/token";
 
 @Controller()
 export class AppController {
@@ -18,6 +20,17 @@ export class AppController {
   @ApiOkResponse({ description: "성공 시", type: [QuestionDTO] })
   getQuestion() {
     return questions;
+  }
+
+  @Post("question/check")
+  @ApiOperation({ summary: "대충 역량평가 답 갯수 받고 경험치 올려버리기" })
+  @ApiOkResponse({ description: "대충 성공 시", type: UserDTO })
+  async checkQuestion(
+    @Headers("authorization") token: string,
+    @Query("ans") answerCount: number
+  ) {
+    const sub = getSubByToken(token);
+    return this.appService.clearQuestion(sub, answerCount);
   }
 }
 
