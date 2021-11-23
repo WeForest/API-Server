@@ -116,7 +116,6 @@ export class ProfileController {
 
   @Post("picture")
   @UseInterceptors(FileInterceptor("file"))
-  @ApiConsumes("multipart/form-data")
   @ApiBody({
     description: "profile picture update",
     type: FileUploadDto,
