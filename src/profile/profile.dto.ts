@@ -104,3 +104,11 @@ export class FileUploadDto {
   @ApiProperty({ type: "file" })
   file: any;
 }
+
+export class FileUploadIsSuccess {
+  @ApiProperty({ description: "성공 여부" })
+  success: boolean;
+
+  @ApiProperty({ description: "링크 또는 메세지" })
+  message: string;
+}

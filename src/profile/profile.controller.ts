@@ -13,6 +13,7 @@ import {
 import { ProfileService } from "./profile.service";
 import {
   FileUploadDto,
+  FileUploadIsSuccess,
   ProfileInterface,
   UpdateProfileDataDTO,
 } from "./profile.dto";
@@ -120,12 +121,21 @@ export class ProfileController {
     description: "profile picture update",
     type: FileUploadDto,
   })
+  @ApiOkResponse({ description: "성공 시", type: FileUploadIsSuccess })
   async uploadFile(
     @Headers("authorization") accessToken: string,
     @UploadedFile() file
-  ): Promise<string> {
+  ): Promise<FileUploadIsSuccess> {
     console.log(file);
     const sub = getSubByToken(accessToken);
-    return this.profileService.uploadProfilePicture(sub, file);
+    try {
+      return {
+        success: true,
+        message: await this.profileService.uploadProfilePicture(sub, file),
+      };
+    } catch (e) {
+      console.error(e);
+      return { success: false, message: "에러 발생, 서버 코드 참조" };
+    }
   }
 }
