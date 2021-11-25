@@ -9,7 +9,7 @@ import { Socket } from "socket.io";
 import { PrismaService } from "./prisma.service";
 import { getSubByToken } from "./util/token";
 
-@WebSocketGateway(81, { namespace: "chat" })
+@WebSocketGateway(81, { namespace: "chat", transports: ["websocket"] })
 export class ChatGateway {
   constructor(private prisma: PrismaService) {}
 
