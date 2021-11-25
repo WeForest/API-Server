@@ -1,20 +1,29 @@
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from "@nestjs/websockets";
 
 import { Socket } from "socket.io";
 import { PrismaService } from "./prisma.service";
 import { getSubByToken } from "./util/token";
 
-@WebSocketGateway(81, { namespace: "chat", transports: ["websocket"] })
-export class ChatGateway {
+@WebSocketGateway(81, {
+  namespace: "chat",
+  transports: ["websocket"],
+  upgradeTimeout: false,
+})
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private prisma: PrismaService) {}
 
-  @SubscribeMessage("connect")
-  async connectSocket(
+  @WebSocketServer()
+  server;
+
+  async handleConnection(
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
   ) {
@@ -76,8 +85,7 @@ export class ChatGateway {
     client.leave(roomId);
   }
 
-  @SubscribeMessage("disconnect")
-  async disConnectSocket(@ConnectedSocket() client: Socket) {
+  async handleDisconnect(@ConnectedSocket() client: Socket) {
     client.disconnect();
   }
 }
