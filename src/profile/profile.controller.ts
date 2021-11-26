@@ -113,10 +113,9 @@ export class ProfileController {
       updateData: body,
     });
   }
-
+  
+  @UseInterceptors(FileInterceptor("images", null))
   @Patch("picture")
-  @UseInterceptors(FileInterceptor("images", 1))
-  @ApiConsumes("multipart/form-data")
   @ApiBody({
     description: "profile picture update",
     type: FileUploadDto,
