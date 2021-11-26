@@ -114,7 +114,7 @@ export class ProfileController {
     });
   }
 
-  @Post("picture")
+  @Patch("picture")
   @UseInterceptors(FileInterceptor("file"))
   @ApiConsumes("multipart/form-data")
   @ApiBody({
