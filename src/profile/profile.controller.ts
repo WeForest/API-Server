@@ -123,7 +123,7 @@ export class ProfileController {
   @ApiOkResponse({ description: "성공 시", type: FileUploadIsSuccess })
   async uploadFile(
     @Headers("authorization") accessToken: string,
-    @UploadedFile() file
+    @UploadedFile('file') file
   ): Promise<FileUploadIsSuccess> {
     console.log(file);
     const sub = getSubByToken(accessToken);
