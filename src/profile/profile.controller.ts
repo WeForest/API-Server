@@ -113,9 +113,10 @@ export class ProfileController {
       updateData: body,
     });
   }
-  
+
   @UseInterceptors(FileInterceptor("images", null))
   @Patch("picture")
+  @ApiConsumes("multipart/form-data")
   @ApiBody({
     description: "profile picture update",
     type: FileUploadDto,
@@ -123,7 +124,7 @@ export class ProfileController {
   @ApiOkResponse({ description: "성공 시", type: FileUploadIsSuccess })
   async uploadFile(
     @Headers("authorization") accessToken: string,
-    @UploadedFile('file') file
+    @UploadedFile("file") file
   ): Promise<FileUploadIsSuccess> {
     console.log(file);
     const sub = getSubByToken(accessToken);
