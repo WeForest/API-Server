@@ -76,7 +76,7 @@ export class ProfileService {
   }
 
   async uploadProfilePicture(sub: string, file: any) {
-    const imageUrl: string = await uploadToS3(file.originalname, file);
+    const imageUrl: string = await uploadToS3({ fileName : file.originalname, file});
 
     await this.prisma.user.update({
       data: {
