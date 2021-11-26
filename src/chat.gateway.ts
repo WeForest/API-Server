@@ -14,7 +14,7 @@ import { getSubByToken } from "./util/token";
 
 @WebSocketGateway(81, {
   namespace: "chat",
-  transports: ["websocket"],
+  transports: ["websocket", "polling"],
   upgradeTimeout: false,
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
