@@ -89,6 +89,7 @@ export class GroupService {
     return this.prisma.studyGroup.findMany({
       where: { name: { contains: keyword ?? "" } },
       select: {
+        id: true,
         name: true,
         description: true,
         tags: true,
