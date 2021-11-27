@@ -62,7 +62,7 @@ export class GroupService {
         description,
         tags,
         owner: { connect: { sub } },
-        StudyMember: { create: { memberId: member.id } },
+        StudyMember: { create: [{ memberId: member.id }] },
         chatting: { create: { type: "group" } },
       },
     });
