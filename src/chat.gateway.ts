@@ -40,6 +40,24 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
+  @SubscribeMessage("connect")
+  async connectSocket(
+    @MessageBody() data: string,
+    @ConnectedSocket() client: Socket
+  ) {
+    const [token] = data;
+    const sub: string = getSubByToken(token);
+    const user = await this.prisma.user.findFirst({ where: { sub } });
+    const roomIdList = await this.prisma.chattingParticipant.findMany({
+      select: { chattingId: true },
+      where: { userId: user.id },
+    });
+
+    roomIdList.map((room) => {
+      client.join(String(room.chattingId));
+    });
+  }
+
   @SubscribeMessage("join")
   async connectSomeone(
     @MessageBody() data: string,
