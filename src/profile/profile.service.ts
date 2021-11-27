@@ -196,13 +196,13 @@ export class ProfileService {
     await this.prisma.user.update({
       where: { id: targetUser.id },
       data: {
-        followers: { deleteMany: { sub } },
+        followers: { disconnect: { sub } },
       },
     });
     return this.prisma.user.update({
       where: { sub },
       data: {
-        following: { deleteMany: { name } },
+        following: { disconnect: { id: targetUser.id } },
       },
     });
   }
