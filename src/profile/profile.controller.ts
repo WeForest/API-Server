@@ -75,7 +75,7 @@ export class ProfileController {
     if (!success) {
       return { message: message ?? "에러." };
     }
-    return { ...datas.followers, message };
+    return { ...datas.result.followers, message };
   }
 
   @Get(":nickname/following")
@@ -93,7 +93,7 @@ export class ProfileController {
     if (!success) {
       return { message: message ?? "에러." };
     }
-    return { ...datas.following, message };
+    return { ...datas.result.following, message };
   }
 
   @Post(":nickname")
