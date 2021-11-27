@@ -182,6 +182,15 @@ export class ProfileService {
   }
 
   async unfollowuser(name: string, sub: string) {
+    const targetUser = await this.prisma.user.findFirst({
+      where: { name },
+    });
+    await this.prisma.user.update({
+      where: { sub: targetUser.sub },
+      data: {
+        followers: { deleteMany: { sub } },
+      },
+    });
     return this.prisma.user.update({
       where: { sub },
       data: {
