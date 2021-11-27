@@ -66,16 +66,14 @@ export class ProfileController {
     description: "팔로워를 조회해드립니다",
   })
   @ApiOkResponse({ description: "성공 시", type: [UserDTO] })
-  async followerJoin(
-    @Param("nickname") nickname: string
-  ): Promise<UserDTO | { message: string }> {
+  async followerJoin(@Param("nickname") nickname: string) {
     const result = await this.profileService.getFollowerByNickname(nickname);
 
     const { success, message, ...datas } = result;
     if (!success) {
       return { message: message ?? "에러." };
     }
-    return { result : ...datas.followers, message };
+    return { result: datas.followers, message };
   }
 
   @Get(":nickname/following")
@@ -84,16 +82,14 @@ export class ProfileController {
     description: "팔로잉을 조회해드립니다",
   })
   @ApiOkResponse({ description: "성공 시", type: [UserDTO] })
-  async followingJoin(
-    @Param("nickname") nickname: string
-  ): Promise<UserDTO | { message: string }> {
+  async followingJoin(@Param("nickname") nickname: string) {
     const result = await this.profileService.getFollowingByNickname(nickname);
 
     const { success, message, ...datas } = result;
     if (!success) {
       return { message: message ?? "에러." };
     }
-    return { result : ...datas.following, message };
+    return { result: datas.following, message };
   }
 
   @Post(":nickname")
