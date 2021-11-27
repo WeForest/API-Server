@@ -82,6 +82,7 @@ export class GroupService {
     console.log(keyword);
     return this.prisma.studyGroup.findMany({
       where: { name: { contains: keyword ?? "" } },
+      select : {name : true, description : true, tags : true, owner : {select : {name : true, profileImg : true}}},
       orderBy: { id: "asc" },
       take: 20,
       skip: (page - 1) * 20,
