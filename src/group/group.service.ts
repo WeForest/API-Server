@@ -55,13 +55,14 @@ export class GroupService {
 
   async createGroup({ name, description, tags, sub }: CreateGroupMethodInform) {
     console.log(name, description, tags, sub);
+    const member = await this.prisma.user.findUnique({ where: { sub } });
     return this.prisma.studyGroup.create({
       data: {
         name,
         description,
         tags,
         owner: { connect: { sub } },
-        StudyMember: { create: { member: { connect: { sub } } } },
+        StudyMember: { create: { memberId: member.id } },
         chatting: { create: { type: "group" } },
       },
     });
