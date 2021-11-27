@@ -1,5 +1,5 @@
 import { Interests, Major } from ".prisma/client";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { uploadToS3 } from "src/util/image";
 import { PrismaService } from "../prisma.service";
 import {
@@ -120,7 +120,9 @@ export class ProfileService {
         name,
       },
     });
-
+    if (!result) {
+      throw new NotFoundException("값을 찾을 수 없습니다");
+    }
     return Object.assign({}, result, {
       success: true,
       message: "success get profile",
