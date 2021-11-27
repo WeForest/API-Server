@@ -123,6 +123,16 @@ export class GroupController {
     @Query("k") keyword: string,
     @Res({ passthrough: true }) res: Response
   ) {
-    return await this.groupService.findStudyGroup({ page, keyword });
+    return this.groupService.findStudyGroup({ page, keyword });
+  }
+
+  @Get("check/:id")
+  @ApiOperation({
+    summary: "그룹 조회",
+    description: "개개인 그룹 조회",
+  })
+  @ApiOkResponse({ description: "성공 시", type: GroupDTO })
+  async checkEachGroup(@Param("id") id: number) {
+    return this.groupService.getGroup(id);
   }
 }

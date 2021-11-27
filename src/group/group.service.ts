@@ -82,10 +82,27 @@ export class GroupService {
     console.log(keyword);
     return this.prisma.studyGroup.findMany({
       where: { name: { contains: keyword ?? "" } },
-      select : {name : true, description : true, tags : true, owner : {select : {name : true, profileImg : true}}},
+      select: {
+        name: true,
+        description: true,
+        tags: true,
+        owner: { select: { name: true, profileImg: true } },
+      },
       orderBy: { id: "asc" },
       take: 20,
       skip: (page - 1) * 20,
+    });
+  }
+
+  async getGroup(id: number) {
+    return this.prisma.studyGroup.findUnique({
+      where: { id },
+      select: {
+        name: true,
+        description: true,
+        tags: true,
+        owner: { select: { name: true, profileImg: true } },
+      },
     });
   }
 }
