@@ -179,6 +179,14 @@ export class ProfileService {
     });
   }
 
+  async unfollowuser(name: string, sub: string) {
+    this.prisma.user.update({
+      where: { sub },
+      data: {
+        following: { deleteMany: { name } },
+      },
+    });
+  }
   async getExpLogs(sub: string) {
     return this.prisma.expLog.findMany({ where: { user: { sub } } });
   }

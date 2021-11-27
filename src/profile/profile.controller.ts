@@ -109,6 +109,19 @@ export class ProfileController {
     const sub = getSubByToken(token);
     return this.profileService.followUser(nickname, sub);
   }
+
+  @Post("un/:nickname")
+  @ApiOperation({
+    summary: "팔취",
+    description: "팔로우 취소해버리기",
+  })
+  @ApiOkResponse({ description: "성공 시", type: UserDTO })
+  async unfollowUser(
+    @Headers("authorization") token: string,
+    @Param("nickname") nickname: string
+  ) {
+    return this.profileService.unfollowuser(nickname, getSubByToken(token));
+  }
   @Patch("update")
   @ApiOperation({
     summary: "프로필 업데이트",
