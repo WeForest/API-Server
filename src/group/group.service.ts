@@ -1,3 +1,4 @@
+import { StudyGroup } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { AboutGroup, CreateGroupMethodInform, SearchGroup } from "./group.dto";
@@ -16,10 +17,12 @@ export class GroupService {
       })
     )?.group;
 
-    const willJoingroup = await this.prisma.studyGroup.findUnique({
-      where: { id: Number(id) },
-    });
-
+    const willJoingroup: StudyGroup[] = [
+      await this.prisma.studyGroup.findUnique({
+        where: { id: Number(id) },
+      }),
+    ];
+    const nullGroupList: StudyGroup[] = [];
     await this.prisma.user.update({
       where: {
         sub,
@@ -27,7 +30,10 @@ export class GroupService {
       data: {
         group: {
           deleteMany: {},
-          create: [...(userHasGroup ?? []), willJoingroup],
+          create: [
+            ...(userHasGroup ?? []),
+            ...(willJoingroup[0] ? willJoingroup : nullGroupList),
+          ],
         },
       },
     });
