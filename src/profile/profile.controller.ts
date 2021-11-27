@@ -12,6 +12,7 @@ import {
 
 import { ProfileService } from "./profile.service";
 import {
+  ExpLogsDTO,
   FileUploadDto,
   FileUploadIsSuccess,
   ProfileInterface,
@@ -46,6 +47,17 @@ export class ProfileController {
       return { message: message ?? "에러." };
     }
     return datas;
+  }
+
+  @Get("log")
+  @ApiOperation({
+    summary: "경험치 로그 조회",
+    description: "경험치 로그를 조회합ㄴ디ㅏ.",
+  })
+  @ApiOkResponse({ description: "성공 시", type: [ExpLogsDTO] })
+  async getExpLogs(@Headers("authorization") token: string) {
+    const sub = getSubByToken(token);
+    return this.profileService.getExpLogs(sub);
   }
 
   @Get(":nickname/follower")

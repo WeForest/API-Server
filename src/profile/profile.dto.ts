@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiOkResponse, ApiProperty } from "@nestjs/swagger";
 import { Interests, Major, StudyGroup, User } from "@prisma/client";
 
 export interface ProfileInterface {
@@ -111,4 +111,12 @@ export class FileUploadIsSuccess {
 
   @ApiProperty({ description: "링크 또는 메세지" })
   message: string;
+}
+
+export class ExpLogsDTO {
+  @ApiProperty({ description: "미션 타입, mission, conference" })
+  activity: string;
+
+  @ApiProperty({ description: "경험치 얻은 양" })
+  getExp: number;
 }
