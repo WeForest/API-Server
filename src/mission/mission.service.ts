@@ -80,6 +80,9 @@ export class MissionService {
           goalExpByUser.GoalExperience <= userExp
             ? userExp - goalExpByUser.GoalExperience
             : userExp,
+        ExpLog: {
+          create: { getExp: successMission.mission.exp, activity: "mission" },
+        },
       },
     });
 

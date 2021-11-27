@@ -37,8 +37,24 @@ model User {
   HasMission  HasMission[]
   chatting    ChattingParticipant[]
   StudyMember StudyMember[]
+  Conference  Conference[]
+  ExpLog      ExpLog[]
 }
 
+model ExpLog{
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  getExp Int
+  activity String // mission, conference
+}
+
+model Conference{
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  conferenceName String
+}
 model Interests {
   id         Int    @id @default(autoincrement())
   Interested String
