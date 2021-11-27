@@ -1,10 +1,9 @@
-import * as fs from "fs";
 import * as crypto from "crypto";
 import * as AWS from "aws-sdk";
 
 const s3bucket: AWS.S3 = new AWS.S3({
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_ID,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
   params: { Bucket: process.env.AWS_BUCKET_NAME },
 });
 
