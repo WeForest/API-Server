@@ -180,7 +180,7 @@ export class ProfileService {
   }
 
   async unfollowuser(name: string, sub: string) {
-    this.prisma.user.update({
+    return this.prisma.user.update({
       where: { sub },
       data: {
         following: { deleteMany: { name } },
