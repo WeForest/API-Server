@@ -123,10 +123,14 @@ export class ProfileService {
     if (!result) {
       throw new NotFoundException("값을 찾을 수 없습니다");
     }
-    return Object.assign({}, result, {
-      success: true,
-      message: "success get profile",
-    });
+    return Object.assign(
+      {},
+      { result: result },
+      {
+        success: true,
+        message: "success get profile",
+      }
+    );
   }
 
   async getFollowingByNickname(name: string) {
@@ -157,10 +161,14 @@ export class ProfileService {
       },
     });
 
-    return Object.assign({}, result, {
-      success: true,
-      message: "success get profile",
-    });
+    return Object.assign(
+      {},
+      { result: result },
+      {
+        success: true,
+        message: "success get profile",
+      }
+    );
   }
 
   async followUser(nickname: string, sub: string) {
