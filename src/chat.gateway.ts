@@ -14,7 +14,7 @@ import { getSubByToken } from "./util/token";
 
 @WebSocketGateway(81, {
   namespace: "chat",
-  transports: ["polling"],
+  transports: ["websocket"],
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private prisma: PrismaService) {}
@@ -22,14 +22,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server;
 
-  async handleConnection(@ConnectedSocket() client: Socket) {}
+  async handleConnection(@ConnectedSocket() client: Socket) {
+    console.log("client", client);
+  }
 
   @SubscribeMessage("setting")
   async connectSocket(
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
   ) {
-    const [token] = data;
+    console.log("setting");
+    console.log(data);
+    const { token } = data;
     const sub: string = getSubByToken(token);
     const user = await this.prisma.user.findFirst({ where: { sub } });
     const roomIdList = await this.prisma.chattingParticipant.findMany({
@@ -40,6 +44,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     roomIdList.map((room) => {
       client.join(String(room.chattingId));
     });
+    client.emit("setting", roomIdList);
   }
 
   @SubscribeMessage("join")
@@ -47,7 +52,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
   ) {
-    const [token, roomId] = data;
+    console.log("join");
+    console.log(data);
+    const { token, roomId } = JSON.parse(data);
     const user = await this.prisma.user.findUnique({
       where: { sub: getSubByToken(token) },
     });
@@ -64,7 +71,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
   ) {
-    const [token, roomId, message] = data;
+    console.log("sendMessage");
+    console.log(data);
+    const { token, roomId, message } = JSON.parse(data);
     const clientUser = await this.prisma.user.findUnique({
       where: { sub: getSubByToken(token) },
     });
@@ -78,7 +87,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
   ) {
-    const [token, roomId] = data;
+    console.log("leave");
+    console.log(data);
+    const { token, roomId } = JSON.parse(data);
     const sub: string = getSubByToken(token);
     const user = await this.prisma.user.findFirst({ where: { sub } });
     await this.prisma.chattingParticipant.deleteMany({
