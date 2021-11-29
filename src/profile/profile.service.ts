@@ -4,9 +4,9 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import axios, { Axios } from "axios";
-import { connect } from "http2";
-import { uploadToS3 } from "src/util/image";
+import axios from "axios";
+import FormData from "form-data";
+import { uploadToS3 } from "../util/image";
 import { PrismaService } from "../prisma.service";
 import {
   GetProfileFunction,
@@ -104,7 +104,7 @@ export class ProfileService {
     formData.append("image", file);
     const data = await axios({
       method: "POST",
-      url: "http://34.125.102.123:5000/fileUpload",
+      url: "",
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -128,7 +128,7 @@ export class ProfileService {
     } else {
       return { success: "실패" };
     }
-  }
+  } //http://34.125.102.123:5000/fileUpload
   async getFollowerByNickname(name: string) {
     const result = await this.prisma.user.findFirst({
       select: {

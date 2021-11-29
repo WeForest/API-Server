@@ -136,7 +136,7 @@ export class ProfileController {
   }
 
   @UseInterceptors(FileInterceptor("images", null))
-  @Post("conference")
+  @Patch("conference")
   @ApiConsumes("multipart/form-data")
   @ApiBody({
     description: "profile picture update",
