@@ -134,6 +134,21 @@ export class ProfileController {
       updateData: body,
     });
   }
+  
+  @UseInterceptors(FileInterceptor("images", null))
+  @Post("conferenc")
+  @ApiConsumes("multipart/form-data")
+  @ApiBody({
+    description: "profile picture update",
+    type: FileUploadDto,
+  })
+  async addConefenceLog(
+    @Headers("authorization") accessToken: string,
+    @UploadedFile("file") file
+  ){
+    const sub = getSubByToken(accessToken);
+    return this.profileService.addConefenceLog(sub, file);
+  }
 
   @UseInterceptors(FileInterceptor("images", null))
   @Patch("picture")
