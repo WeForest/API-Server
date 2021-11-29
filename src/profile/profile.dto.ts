@@ -120,3 +120,11 @@ export class ExpLogsDTO {
   @ApiProperty({ description: "경험치 얻은 양" })
   getExp: number;
 }
+
+export class ConferenceRequestDTO {
+  @ApiProperty({ description: "컨퍼런스 이름" })
+  conference: string;
+
+  @ApiProperty({ description: "컨퍼런스에서 인식된 이름" })
+  name: string;
+}

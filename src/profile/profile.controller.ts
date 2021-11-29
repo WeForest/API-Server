@@ -12,6 +12,7 @@ import {
 
 import { ProfileService } from "./profile.service";
 import {
+  ConferenceRequestDTO,
   ExpLogsDTO,
   FileUploadDto,
   FileUploadIsSuccess,
@@ -135,20 +136,15 @@ export class ProfileController {
     });
   }
 
-  @UseInterceptors(FileInterceptor("images", null))
   @Patch("conference")
-  @ApiConsumes("multipart/form-data")
-  @ApiBody({
-    description: "profile picture update",
-    type: FileUploadDto,
-  })
   @ApiOkResponse({ description: "성공 시", type: UserDTO })
   async addConefenceLog(
     @Headers("authorization") accessToken: string,
-    @UploadedFile("file") file
+    @Body() { conference, name }: ConferenceRequestDTO
   ) {
+    console.log(process.env);
     const sub = getSubByToken(accessToken);
-    return this.profileService.addConefenceLog(sub, file);
+    return this.profileService.addConefenceLog(sub, conference, name);
   }
 
   @UseInterceptors(FileInterceptor("images", null))

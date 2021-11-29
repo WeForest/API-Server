@@ -101,38 +101,20 @@ export class ProfileService {
     return imageUrl;
   }
 
-  async addConefenceLog(sub: string, file: any) {
-    const formData = new FormData();
-    console.log(file);
-    formData.append("image", file.buffer);
-    const data = await axios({
-      method: "POST",
-      url: "http://34.125.102.123:5000/fileUpload",
-      data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
+  async addConefenceLog(sub: string, conference, name) {
+    const connectUser = await this.prisma.user.findUnique({ where: { sub } });
+    console.log("connect : ", connectUser);
+    if (connectUser.name != name) {
+      throw new UnauthorizedException("인가되지않은 권한입니다.");
+    }
+    return await this.prisma.conference.create({
+      data: {
+        conferenceName: conference,
+        user: {
+          connect: { id: connectUser.id },
+        },
       },
     });
-    console.log(data.data);
-
-    const { success, conference, name } = data.data;
-    if (success) {
-      const connectUser = await this.prisma.user.findUnique({ where: { sub } });
-      console.log("connect : ", connectUser);
-      if (connectUser.name != name) {
-        throw new UnauthorizedException("인가되지않은 권한입니다.");
-      }
-      return await this.prisma.conference.create({
-        data: {
-          conferenceName: conference,
-          user: {
-            connect: { id: connectUser.id },
-          },
-        },
-      });
-    } else {
-      return { success: "실패" };
-    }
   } //
   async getFollowerByNickname(name: string) {
     const result = await this.prisma.user.findFirst({

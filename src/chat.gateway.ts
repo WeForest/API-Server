@@ -14,8 +14,7 @@ import { getSubByToken } from "./util/token";
 
 @WebSocketGateway(81, {
   namespace: "chat",
-  transports: ["websocket", "polling"],
-  upgradeTimeout: false,
+  transports: ["polling"],
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private prisma: PrismaService) {}
@@ -23,24 +22,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server;
 
-  async handleConnection(
-    @MessageBody() data: string,
-    @ConnectedSocket() client: Socket
-  ) {
-    const [token] = data;
-    const sub: string = getSubByToken(token);
-    const user = await this.prisma.user.findFirst({ where: { sub } });
-    const roomIdList = await this.prisma.chattingParticipant.findMany({
-      select: { chattingId: true },
-      where: { userId: user.id },
-    });
+  async handleConnection(@ConnectedSocket() client: Socket) {}
 
-    roomIdList.map((room) => {
-      client.join(String(room.chattingId));
-    });
-  }
-
-  @SubscribeMessage("connect")
+  @SubscribeMessage("setting")
   async connectSocket(
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket
