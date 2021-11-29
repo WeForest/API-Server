@@ -94,30 +94,30 @@ export class ProfileService {
     return imageUrl;
   }
 
-  async addConefenceLog(sub : string, file : any){
+  async addConefenceLog(sub: string, file: any) {
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
     const data = await axios({
-      method : "POST",
-      url : "http://54.180.106.31:5000/fileUpload",
-      data : formData,
+      method: "POST",
+      url: "http://34.125.102.123:5000/fileUpload",
+      data: formData,
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    const {success , conference, name} = data.data;
-    if(success){
-      const user = (await this.prisma.user.findFirst({where: {name}}))[0]
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const { success, conference, name } = data.data;
+    if (success) {
+      const user = (await this.prisma.user.findFirst({ where: { name } }))[0];
       return await this.prisma.conference.create({
-        data : {
-          conferenceName : conference,
-          user : {
-            connect : {id : user.id}
-          }
-        }
-      })
-    }else{
-      return {success : "실패"}
+        data: {
+          conferenceName: conference,
+          user: {
+            connect: { id: user.id },
+          },
+        },
+      });
+    } else {
+      return { success: "실패" };
     }
   }
   async getFollowerByNickname(name: string) {
