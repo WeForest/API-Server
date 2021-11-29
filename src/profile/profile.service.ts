@@ -1,5 +1,6 @@
 import { Interests, Major } from ".prisma/client";
 import { Injectable, NotFoundException } from "@nestjs/common";
+import axios, { Axios } from "axios";
 import { uploadToS3 } from "src/util/image";
 import { PrismaService } from "../prisma.service";
 import {
@@ -93,6 +94,32 @@ export class ProfileService {
     return imageUrl;
   }
 
+  async addConefenceLog(sub : string, file : any){
+    const formData = new FormData();
+    formData.append('image', file);
+    const data = await axios({
+      method : "POST",
+      url : "http://54.180.106.31:5000/fileUpload",
+      data : formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    const {success , conference, name} = data.data;
+    if(success){
+      const user = (await this.prisma.user.findFirst({where: {name}}))[0]
+      return await this.prisma.conference.create({
+        data : {
+          conferenceName : conference,
+          user : {
+            connect : {id : user.id}
+          }
+        }
+      })
+    }else{
+      return {success : "실패"}
+    }
+  }
   async getFollowerByNickname(name: string) {
     const result = await this.prisma.user.findFirst({
       select: {
