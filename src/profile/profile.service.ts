@@ -1,6 +1,11 @@
 import { Interests, Major } from ".prisma/client";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import axios, { Axios } from "axios";
+import { connect } from "http2";
 import { uploadToS3 } from "src/util/image";
 import { PrismaService } from "../prisma.service";
 import {
@@ -107,12 +112,16 @@ export class ProfileService {
     });
     const { success, conference, name } = data.data;
     if (success) {
-      const user = (await this.prisma.user.findFirst({ where: { name } }))[0];
+      const connectUser = await this.prisma.user.findUnique({ where: { sub } });
+
+      if (connectUser.name != name) {
+        throw new UnauthorizedException("인가되지않은 권한입니다.");
+      }
       return await this.prisma.conference.create({
         data: {
           conferenceName: conference,
           user: {
-            connect: { id: user.id },
+            connect: { id: connectUser.id },
           },
         },
       });
