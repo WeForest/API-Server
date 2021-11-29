@@ -17,6 +17,8 @@ export class AppService {
         goalExpList.level === user.level;
       }
     )[0];
+    console.log(goalExpByUser);
+    console.log(await this.prisma.GoalExp);
 
     const userExp: number = user.exp + score * 10;
     return this.prisma.user.update({

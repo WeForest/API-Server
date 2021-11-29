@@ -5,7 +5,9 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import axios from "axios";
-import FormData from "form-data";
+
+import FormData = require("form-data");
+import { Blob } from "buffer";
 import { uploadToS3 } from "../util/image";
 import { PrismaService } from "../prisma.service";
 import {
@@ -101,15 +103,18 @@ export class ProfileService {
 
   async addConefenceLog(sub: string, file: any) {
     const formData = new FormData();
-    formData.append("image", file);
+    console.log(file);
+    formData.append("image", file.buffer);
     const data = await axios({
       method: "POST",
-      url: "",
+      url: "http://34.125.102.123:5000/fileUpload",
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
+    console.log(data.data);
+
     const { success, conference, name } = data.data;
     if (success) {
       const connectUser = await this.prisma.user.findUnique({ where: { sub } });
@@ -128,7 +133,7 @@ export class ProfileService {
     } else {
       return { success: "실패" };
     }
-  } //http://34.125.102.123:5000/fileUpload
+  } //
   async getFollowerByNickname(name: string) {
     const result = await this.prisma.user.findFirst({
       select: {
