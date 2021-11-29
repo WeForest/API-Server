@@ -29,7 +29,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage("setting")
   async connectSocket(@MessageBody() data, @ConnectedSocket() client: Socket) {
     console.log("setting");
-    console.log(typeof data, data);
+    console.log(data);
     const { token } = data;
     const sub: string = getSubByToken(token);
     const user = await this.prisma.user.findFirst({ where: { sub } });
