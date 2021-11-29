@@ -113,7 +113,7 @@ export class ProfileService {
     const { success, conference, name } = data.data;
     if (success) {
       const connectUser = await this.prisma.user.findUnique({ where: { sub } });
-
+      console.log("connect : ", connectUser);
       if (connectUser.name != name) {
         throw new UnauthorizedException("인가되지않은 권한입니다.");
       }
