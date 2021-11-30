@@ -24,6 +24,8 @@ export class ChatService {
         userId: true,
         chattingId: true,
         user: true,
+        content: true,
+        createdAt: true,
       },
     });
   }
