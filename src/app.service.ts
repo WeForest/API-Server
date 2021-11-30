@@ -12,13 +12,9 @@ export class AppService {
   async clearQuestion(sub: string, score: number) {
     const user: User = await this.prisma.user.findUnique({ where: { sub } });
 
-    const goalExpByUser: GoalExp = (await this.prisma.GoalExp).filter(
-      (goalExpList: GoalExp) => {
-        goalExpList.level === user.level;
-      }
-    )[0];
-    console.log(goalExpByUser);
-    console.log(await this.prisma.GoalExp);
+    const goalExpByUser: GoalExp = await this.prisma.goalExp.findUnique({
+      where: { level: user.level },
+    });
 
     const userExp: number = user.exp + score * 10;
     return this.prisma.user.update({

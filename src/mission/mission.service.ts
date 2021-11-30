@@ -64,11 +64,9 @@ export class MissionService {
 
     const user: User = await this.prisma.user.findUnique({ where: { sub } });
 
-    const goalExpByUser: GoalExp = (await this.prisma.GoalExp).filter(
-      (goalExpList: GoalExp) => {
-        goalExpList.level === user.level;
-      }
-    )[0];
+    const goalExpByUser: GoalExp = await this.prisma.goalExp.findUnique({
+      where: { level: user.level },
+    });
 
     const userExp: number = user.exp + successMission.mission.exp;
     const updatedUser = await this.prisma.user.update({

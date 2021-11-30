@@ -24,8 +24,4 @@ export class PrismaService
       await app.close();
     });
   }
-
-  GoalExp: Promise<GoalExp[]> & { [prisma]: true } = this.goalExp.findMany({
-    where: {},
-  });
 }

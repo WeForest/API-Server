@@ -8,32 +8,15 @@ export class GroupService {
   constructor(private prisma: PrismaService) {}
 
   async joinTheGroup({ sub, id }: AboutGroup) {
-    const userHasGroup = await (
-      await this.prisma.user.findUnique({
-        where: { sub },
-        select: {
-          group: true,
-        },
-      })
-    )?.group;
-
-    const willJoingroup: StudyGroup[] = [
-      await this.prisma.studyGroup.findUnique({
-        where: { id: Number(id) },
-      }),
-    ];
-    const nullGroupList: StudyGroup[] = [];
     await this.prisma.user.update({
       where: {
         sub,
       },
       data: {
         group: {
-          deleteMany: {},
-          create: [
-            ...(userHasGroup ?? []),
-            ...(willJoingroup[0] ? willJoingroup : nullGroupList),
-          ],
+          connect: {
+            id,
+          },
         },
       },
     });

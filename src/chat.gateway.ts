@@ -23,7 +23,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server;
 
   async handleConnection(@ConnectedSocket() client: Socket) {
-    console.log("client", client);
+    console.log("client");
   }
 
   @SubscribeMessage("setting")
@@ -73,6 +73,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const { token, roomId, message } = data;
     const clientUser = await this.prisma.user.findUnique({
       where: { sub: getSubByToken(token) },
+    });
+    await this.prisma.chattingLog.create({
+      data: {
+        content: message,
+        chattingId: roomId,
+        userId: clientUser.id,
+      },
     });
     client.broadcast
       .to(roomId)
