@@ -138,6 +138,8 @@ export class ProfileController {
   }
 
   @Patch("conference")
+  @UseInterceptors(FileInterceptor("images", null))
+  @ApiConsumes("multipart/form-data")
   @ApiOperation({
     summary: "컨퍼런스 등록",
     description: "이름이 똑같지않다면 실패",
@@ -145,10 +147,16 @@ export class ProfileController {
   @ApiOkResponse({ description: "성공 시", type: UserDTO })
   async addConefenceLog(
     @Headers("authorization") accessToken: string,
-    @Body() body: ConferenceRequestDTO
+    @Body() body: ConferenceRequestDTO,
+    @UploadedFile("file") file
   ) {
     const sub = getSubByToken(accessToken);
-    return this.profileService.addConefenceLog(sub, body.conference, body.name);
+    return this.profileService.addConefenceLog(
+      sub,
+      body.conference,
+      body.name,
+      file
+    );
   }
 
   @UseInterceptors(FileInterceptor("images", null))

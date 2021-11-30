@@ -102,7 +102,12 @@ export class ProfileService {
     return imageUrl;
   }
 
-  async addConefenceLog(sub: string, conference, name) {
+  async addConefenceLog(
+    sub: string,
+    conference: string,
+    name: string,
+    file: any
+  ) {
     const connectUser = await this.prisma.user.findUnique({ where: { sub } });
     console.log("connect : ", connectUser);
     if (connectUser.name != name) {
@@ -132,13 +137,17 @@ export class ProfileService {
         },
       },
     });
-
+    const conferenceUrl: string = await uploadToS3({
+      fileName: file.originalname,
+      file,
+    });
     return await this.prisma.conference.create({
       data: {
         conferenceName: conference,
         user: {
           connect: { id: connectUser.id },
         },
+        conferenceImgUrl: conferenceUrl,
       },
     });
   } //
