@@ -68,7 +68,6 @@ export class GroupService {
   }
 
   async findStudyGroup({ page, keyword }: SearchGroup) {
-    console.log(keyword);
     return this.prisma.studyGroup.findMany({
       where: { name: { contains: keyword ?? "" } },
       select: {

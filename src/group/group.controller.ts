@@ -91,7 +91,7 @@ export class GroupController {
         ),
       };
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return { success: false };
     }
   }

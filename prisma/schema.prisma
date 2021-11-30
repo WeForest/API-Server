@@ -113,6 +113,7 @@ model ChattingLog {
   userId     Int
   chatting   Chatting @relation(fields: [chattingId], references: [id])
   chattingId Int
+  abuse      Boolean
 }
 
 model Mission {

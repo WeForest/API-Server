@@ -11,7 +11,6 @@ export class AppService {
 
   async clearQuestion(sub: string, score: number) {
     const user: User = await this.prisma.user.findUnique({ where: { sub } });
-
     const goalExpByUser: GoalExp = await this.prisma.goalExp.findUnique({
       where: { level: user.level },
     });

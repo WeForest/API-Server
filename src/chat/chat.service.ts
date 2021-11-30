@@ -26,6 +26,7 @@ export class ChatService {
         user: true,
         content: true,
         createdAt: true,
+        abuse: true,
       },
     });
   }

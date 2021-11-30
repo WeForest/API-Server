@@ -22,14 +22,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server;
 
-  async handleConnection(@ConnectedSocket() client: Socket) {
-    console.log("client");
-  }
+  async handleConnection(@ConnectedSocket() client: Socket) {}
 
   @SubscribeMessage("setting")
   async connectSocket(@MessageBody() data, @ConnectedSocket() client: Socket) {
-    console.log("setting");
-    console.log(data);
     const { token } = data;
     const sub: string = getSubByToken(token);
     const user = await this.prisma.user.findFirst({ where: { sub } });
@@ -49,8 +45,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: { [k: string]: any },
     @ConnectedSocket() client: Socket
   ) {
-    console.log("join");
-    console.log(data);
     const { token, roomId } = data;
     const user = await this.prisma.user.findUnique({
       where: { sub: getSubByToken(token) },
@@ -68,9 +62,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: { [k: string]: any },
     @ConnectedSocket() client: Socket
   ) {
-    console.log("sendMessage");
-    console.log(data);
-    const { token, roomId, message } = data;
+    const { token, roomId, message, abuse } = data;
     const clientUser = await this.prisma.user.findUnique({
       where: { sub: getSubByToken(token) },
     });
@@ -79,11 +71,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         content: message,
         chattingId: roomId,
         userId: clientUser.id,
+        abuse,
       },
     });
     client.broadcast
       .to(roomId)
-      .emit("sendMessage", [clientUser.name, clientUser.profileImg, message]);
+      .emit("sendMessage", [
+        clientUser.name,
+        clientUser.profileImg,
+        message,
+        abuse,
+      ]);
   }
 
   @SubscribeMessage("leave")
@@ -91,8 +89,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: { [k: string]: any },
     @ConnectedSocket() client: Socket
   ) {
-    console.log("leave");
-    console.log(data);
     const { token, roomId } = data;
     const sub: string = getSubByToken(token);
     const user = await this.prisma.user.findFirst({ where: { sub } });

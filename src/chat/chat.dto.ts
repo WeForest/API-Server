@@ -39,4 +39,7 @@ export class ChattingLogDTO {
 
   @ApiProperty({ description: "유저" })
   user: UserDTO;
+
+  @ApiProperty({ description: "욕설 유무" })
+  abuse: boolean;
 }
