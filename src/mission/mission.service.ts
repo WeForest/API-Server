@@ -81,6 +81,8 @@ export class MissionService {
         ExpLog: {
           create: { getExp: successMission.mission.exp, activity: "mission" },
         },
+        level:
+          goalExpByUser.GoalExperience <= userExp ? user.level + 1 : user.level,
       },
     });
 

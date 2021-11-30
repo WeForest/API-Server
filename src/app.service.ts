@@ -26,6 +26,11 @@ export class AppService {
           goalExpByUser.GoalExperience <= userExp
             ? userExp - goalExpByUser.GoalExperience
             : userExp,
+        level:
+          goalExpByUser.GoalExperience <= userExp ? user.level + 1 : user.level,
+        ExpLog: {
+          create: { getExp: score * 10, activity: "test" },
+        },
       },
     });
   }

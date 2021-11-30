@@ -119,6 +119,7 @@ export class ProfileController {
   ) {
     return this.profileService.unfollowuser(nickname, getSubByToken(token));
   }
+
   @Patch("update")
   @ApiOperation({
     summary: "프로필 업데이트",

@@ -46,7 +46,7 @@ model ExpLog{
   user User @relation(fields: [userId], references: [id])
   userId Int
   getExp Int
-  activity String // mission, conference
+  activity String // mission, conference, test
 }
 
 model Conference{

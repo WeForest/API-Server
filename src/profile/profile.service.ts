@@ -14,6 +14,7 @@ import {
   GetProfileFunction,
   UpdateProfileDataWithAccessToken,
 } from "./profile.dto";
+import { GoalExp } from "@prisma/client";
 
 @Injectable()
 export class ProfileService {
@@ -107,6 +108,31 @@ export class ProfileService {
     if (connectUser.name != name) {
       throw new UnauthorizedException("인가되지않은 권한입니다.");
     }
+
+    const goalExpByUser: GoalExp = await this.prisma.goalExp.findUnique({
+      where: { level: connectUser.level },
+    });
+
+    const userExp: number = connectUser.exp + 200;
+    await this.prisma.user.update({
+      where: {
+        sub,
+      },
+      data: {
+        exp:
+          goalExpByUser.GoalExperience <= userExp
+            ? userExp - goalExpByUser.GoalExperience
+            : userExp,
+        level:
+          goalExpByUser.GoalExperience <= userExp
+            ? connectUser.level + 1
+            : connectUser.level,
+        ExpLog: {
+          create: { getExp: 200, activity: "conference" },
+        },
+      },
+    });
+
     return await this.prisma.conference.create({
       data: {
         conferenceName: conference,
