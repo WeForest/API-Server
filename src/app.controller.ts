@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Headers, Query } from "@nestjs/common";
+import { Controller, Get, Post, Headers, Query, Param } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiProperty } from "@nestjs/swagger";
 import { AppService } from "./app.service";
 import { UserDTO } from "./profile/profile.dto";
@@ -26,8 +26,12 @@ export class QuestionDTO {
 
   @ApiProperty({ description: "답 문항" })
   answer: string;
+
+  @ApiProperty({ description: "해설" })
+  Commentary?: string;
 }
 
+type difficult = "low" | "middle" | "high";
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -38,11 +42,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get("question")
+  @Get("question/:difficult")
   @ApiOperation({ summary: "대충 역량평가 값 얻어오기" })
   @ApiOkResponse({ description: "성공 시", type: [QuestionDTO] })
-  getQuestion() {
-    return questions;
+  getQuestion(@Param("difficult") difficult: difficult) {
+    return questions[difficult];
   }
 
   @Post("question/check")

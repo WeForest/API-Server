@@ -128,3 +128,8 @@ export class ConferenceRequestDTO {
   @ApiProperty({ description: "컨퍼런스에서 인식된 이름" })
   name: string;
 }
+
+export class ConferenceLogDTO extends ConferenceRequestDTO {
+  @ApiProperty({ description: "컨퍼런스 이미지 링크" })
+  conferenceImgUrl: string;
+}

@@ -109,11 +109,6 @@ export class ProfileService {
     file: any
   ) {
     const connectUser = await this.prisma.user.findUnique({ where: { sub } });
-    console.log("connect : ", connectUser);
-    if (connectUser.name != name) {
-      throw new UnauthorizedException("인가되지않은 권한입니다.");
-    }
-
     const goalExpByUser: GoalExp = await this.prisma.goalExp.findUnique({
       where: { level: connectUser.level },
     });
@@ -258,5 +253,11 @@ export class ProfileService {
   }
   async getExpLogs(sub: string) {
     return this.prisma.expLog.findMany({ where: { user: { sub } } });
+  }
+  async getConefenceLog(name: string) {
+    const user = await this.prisma.user.findMany({ where: { name } });
+    return this.prisma.conference.findMany({
+      where: { user: { sub: user[0].sub } },
+    });
   }
 }

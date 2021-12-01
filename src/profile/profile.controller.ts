@@ -12,6 +12,7 @@ import {
 
 import { ProfileService } from "./profile.service";
 import {
+  ConferenceLogDTO,
   ConferenceRequestDTO,
   ExpLogsDTO,
   FileUploadDto,
@@ -77,6 +78,15 @@ export class ProfileController {
     return { result: datas.followers, message };
   }
 
+  @Get(":nickname/conference")
+  @ApiOperation({
+    summary: "컨퍼런스 로그 조회",
+    description: "컨퍼런스 로그를 조회해드립니다.",
+  })
+  @ApiOkResponse({ description: "성공 시 ", type: [ConferenceLogDTO] })
+  async getConferenceLog(@Param("nickname") name: string) {
+    return this.profileService.getConefenceLog(name);
+  }
   @Get(":nickname/following")
   @ApiOperation({
     summary: "팔로잉 조회",
@@ -137,7 +147,7 @@ export class ProfileController {
     });
   }
 
-  @Patch("conference")
+  @Patch("conference/:name/:conference")
   @UseInterceptors(FileInterceptor("images", null))
   @ApiConsumes("multipart/form-data")
   @ApiOperation({
@@ -147,16 +157,12 @@ export class ProfileController {
   @ApiOkResponse({ description: "성공 시", type: UserDTO })
   async addConefenceLog(
     @Headers("authorization") accessToken: string,
-    @Body() body: ConferenceRequestDTO,
+    @Param("name") name: string,
+    @Param("conference") conference: string,
     @UploadedFile("file") file
   ) {
     const sub = getSubByToken(accessToken);
-    return this.profileService.addConefenceLog(
-      sub,
-      body.conference,
-      body.name,
-      file
-    );
+    return this.profileService.addConefenceLog(sub, conference, name, file);
   }
 
   @UseInterceptors(FileInterceptor("images", null))
