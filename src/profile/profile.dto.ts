@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiOkResponse, ApiProperty } from "@nestjs/swagger";
 import { Interests, Major, StudyGroup, User } from "@prisma/client";
 
 export interface ProfileInterface {
@@ -27,13 +27,34 @@ export interface GetProfileFunction extends ProfileInterface {
 export interface UpdateProfileDataInterface {
   name?: string;
   purpose?: string;
-  Major?: Major[];
-  Interests?: Interests[];
+  major?: Major[];
+  interested?: Interests[];
+  isJobSeeker?: boolean;
+  companyEmail?: string;
 }
 
+export class UpdateProfileDataDTO {
+  @ApiProperty({ description: "유저 이름" })
+  name?: string;
+
+  @ApiProperty({ description: "목표" })
+  purpose?: string;
+
+  @ApiProperty({ description: "전공" })
+  major?: Major[];
+
+  @ApiProperty({ description: "흥미" })
+  interested?: Interests[];
+
+  @ApiProperty({ description: "구인자인지" })
+  isJobSeeker?: boolean;
+
+  @ApiProperty({ description: "회사 이메일" })
+  companyEmail?: string;
+}
 export interface UpdateProfileDataWithAccessToken {
   sub: string;
-  updateData: UpdateProfileDataInterface;
+  updateData: UpdateProfileDataDTO;
 }
 
 export class UserDTO {
@@ -69,7 +90,46 @@ export class UserDTO {
 
   @ApiProperty({ description: "유저의 경험치" })
   exp: number;
+}
 
-  @ApiProperty({ description: "액세스 토큰" })
-  accessToken?: string;
+export class MajorDTO {
+  @ApiProperty({ description: "아이디" })
+  id: number;
+
+  @ApiProperty({ description: "전공 문자열" })
+  major: string;
+}
+
+export class FileUploadDto {
+  @ApiProperty({ type: "file" })
+  file: any;
+}
+
+export class FileUploadIsSuccess {
+  @ApiProperty({ description: "성공 여부" })
+  success: boolean;
+
+  @ApiProperty({ description: "링크 또는 메세지" })
+  message: string;
+}
+
+export class ExpLogsDTO {
+  @ApiProperty({ description: "미션 타입, mission, conference" })
+  activity: string;
+
+  @ApiProperty({ description: "경험치 얻은 양" })
+  getExp: number;
+}
+
+export class ConferenceRequestDTO {
+  @ApiProperty({ description: "컨퍼런스 이름" })
+  conference: string;
+
+  @ApiProperty({ description: "컨퍼런스에서 인식된 이름" })
+  name: string;
+}
+
+export class ConferenceLogDTO extends ConferenceRequestDTO {
+  @ApiProperty({ description: "컨퍼런스 이미지 링크" })
+  conferenceImgUrl: string;
 }

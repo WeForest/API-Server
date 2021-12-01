@@ -1,7 +1,7 @@
 import { Mission, User } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { GoalExp } from "@prisma/client";
-import { PrismaService } from "src/prisma.service";
+import { PrismaService } from "../prisma.service";
 import { CreateMission, MissionType } from "./mission.dto";
 
 @Injectable()
@@ -20,8 +20,15 @@ export class MissionService {
     return this.prisma.mission.findFirst({ where: { id: number } });
   }
 
-  async getMissionListByType(type: MissionType) {
-    return (await this.prisma.mission.findMany({ where: { type } }))[0];
+  async getMissionListByType(type: MissionType, page: number) {
+    return await this.prisma.mission.findMany({
+      where: { type },
+      orderBy: {
+        id: "asc",
+      },
+      skip: (page - 1) * 20,
+      take: 20,
+    });
   }
 
   async failedMissionBySub({ sub, number }: { sub: any; number: number }) {
@@ -57,11 +64,9 @@ export class MissionService {
 
     const user: User = await this.prisma.user.findUnique({ where: { sub } });
 
-    const goalExpByUser: GoalExp = (await this.prisma.GoalExp).filter(
-      (goalExpList: GoalExp) => {
-        goalExpList.level === user.level;
-      }
-    )[0];
+    const goalExpByUser: GoalExp = await this.prisma.goalExp.findUnique({
+      where: { level: user.level },
+    });
 
     const userExp: number = user.exp + successMission.mission.exp;
     const updatedUser = await this.prisma.user.update({
@@ -73,6 +78,11 @@ export class MissionService {
           goalExpByUser.GoalExperience <= userExp
             ? userExp - goalExpByUser.GoalExperience
             : userExp,
+        ExpLog: {
+          create: { getExp: successMission.mission.exp, activity: "mission" },
+        },
+        level:
+          goalExpByUser.GoalExperience <= userExp ? user.level + 1 : user.level,
       },
     });
 

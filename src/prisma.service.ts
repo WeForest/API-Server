@@ -1,10 +1,22 @@
-import { INestApplication, Injectable, OnModuleInit } from "@nestjs/common";
+import {
+  INestApplication,
+  Injectable,
+  OnModuleInit,
+  OnModuleDestroy,
+} from "@nestjs/common";
 import { GoalExp, prisma, PrismaClient } from "@prisma/client";
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   async onModuleInit() {
     await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
   }
 
   async enableShutdownHooks(app: INestApplication) {
@@ -12,8 +24,4 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       await app.close();
     });
   }
-
-  GoalExp: Promise<GoalExp[]> & { [prisma]: true } = this.goalExp.findMany({
-    where: {},
-  });
 }

@@ -28,41 +28,98 @@ model User {
   exp          Int      @default(0)
   accessToken  String?
 
-  followers   User[]        @relation("FollowRelation", references: [id])
-  following   User[]        @relation("FollowRelation", references: [id])
-  major       Major[]       @relation(references: [id])
-  interested  Interests[]   @relation(references: [id])
-  group       StudyGroup[]  @relation(references: [id])
+  followers   User[]                @relation("FollowRelation", references: [id])
+  following   User[]                @relation("FollowRelation", references: [id])
+  major       Major[]               @relation(references: [id])
+  interested  Interests[]           @relation(references: [id])
+  group       StudyGroup[]
   ChattingLog ChattingLog[]
   HasMission  HasMission[]
-  StudyGroup  StudyGroup[]  @relation("GroupOwner")
+  chatting    ChattingParticipant[]
+  StudyMember StudyMember[]
+  Conference  Conference[]
+  ExpLog      ExpLog[]
 }
 
-model StudyGroup {
-  id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  tags        String
-  owner       User   @relation("GroupOwner", fields: [ownerId], references: [id])
-  ownerId     Int
-  users       User[] @relation(references: [id])
+model ExpLog{
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  getExp Int
+  activity String // mission, conference, test
 }
 
+model Conference{
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  conferenceName String
+  conferenceImgUrl String
+}
 model Interests {
   id         Int    @id @default(autoincrement())
-  Interested String @unique
-  users      User[] @relation(references: [id])
+  Interested String
+  users      User[] @relation(fields: [userId], references: [id])
+  userId     Int
 }
 
 model Major {
-  id    Int    @id @default(autoincrement())
-  major String @unique
-  users User[] @relation(references: [id])
+  id     Int    @id @default(autoincrement())
+  major  String
+  users  User[] @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model StudyGroup {
+  id          Int           @id @default(autoincrement())
+  description String
+  name        String
+  tags        String
+  owner       User          @relation(fields: [userId], references: [id])
+  userId      Int
+  StudyMember StudyMember[]
+  chatting    Chatting      @relation(fields: [chattingId], references: [id])
+  chattingId  Int           @unique
+}
+
+model StudyMember {
+  id           Int        @id @default(autoincrement())
+  member       User       @relation(fields: [memberId], references: [id])
+  memberId     Int
+  StudyGroup   StudyGroup @relation(fields: [studyGroupId], references: [id])
+  studyGroupId Int
+}
+
+model Chatting {
+  id          Int                   @id @default(autoincrement())
+  type        String                @default("dm") // dm, study
+  ChattingLog ChattingLog[]
+  chatting    ChattingParticipant[]
+  StudyGroup  StudyGroup?
+}
+
+model ChattingParticipant {
+  id          Int        @id @default(autoincrement())
+  participant User[]     @relation(fields: [userId], references: [id])
+  userId      Int
+  chatting    Chatting[] @relation(fields: [chattingId], references: [id])
+  chattingId  Int
+}
+
+model ChattingLog {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  chatting   Chatting @relation(fields: [chattingId], references: [id])
+  chattingId Int
+  abuse      Boolean
 }
 
 model Mission {
   id         Int          @id @default(autoincrement())
-  level      Int
+  level      String       @default("low") // low, middle , high
   exp        Int
   title      String
   content    String
@@ -80,27 +137,4 @@ model HasMission {
 
   mission   Mission @relation(fields: [missionId], references: [id])
   missionId Int
-}
-
-model Chatting {
-  id          Int           @id @default(autoincrement())
-  type        ChattingType?
-  ChattingLog ChattingLog[]
-}
-
-model ChattingLog {
-  id         Int      @id @default(autoincrement())
-  content    String
-  createdAt  DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  chatting   Chatting @relation(fields: [chattingId], references: [id])
-  chattingId Int
-}
-
-model ChattingType {
-  id         Int      @id @default(autoincrement())
-  type       String   @default("dm") // dm, study
-  chatting   Chatting @relation(fields: [chattingId], references: [id])
-  chattingId Int      @unique
 }

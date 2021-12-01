@@ -21,13 +21,13 @@ export class AccountController {
   })
   async login(
     @Body() { token: googleToken }: LoginReq,
-    @Res() res: Response
-  ): Promise<LoginRes> {
+    @Res({ passthrough: true }) res: Response
+  ): Promise<LoginResDTO> {
     const result: LoginReturnValue = await this.accountService.login(
       googleToken
     );
     res.status(result.status);
-    const { token, success, message } = result;
-    return { token, success, message };
+    const { token, success, message, isLogin } = result;
+    return { token, success, message, isLogin };
   }
 }
